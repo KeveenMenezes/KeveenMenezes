@@ -1,5 +1,5 @@
 
-<img width="460"  frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif"></img>
+<img width="420"  frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
 
 <h1 align = center> <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='40px'> Olá, bem vindo ao meu perfil!</h1>
@@ -12,9 +12,12 @@
 ### Minhas skills 💻
 
 <div style= "display: flex; flex-direction: row;
-  justify-content: space-between;" align ="center" >
+  justify-content: space-between;"  align ="center" >
 
-<div>
+<div  style= "width: 50%;
+  box-sizing:border-box;
+  float:left;
+  display:block;"> 
 
 #### Front-End
 
@@ -23,10 +26,16 @@
 
 </div>
 
-<div>
+
+<div  style= "width: 50%;
+  box-sizing:border-box;
+  float:left;
+  display:block;"> 
 
 #### Back-End 
 
 ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white) ![javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 
-</div></div>
+</div>
+
+</div>
