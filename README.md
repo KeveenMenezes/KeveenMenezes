@@ -11,7 +11,8 @@
 
 ### Minhas skills 💻
 
-<div style= "flex-direction: row; display:grid; align-items: stretch;" align ="center">
+<div style= "display: flex; flex-direction: row;
+  justify-content: space-between;" align ="center" >
 
 <div>
 
