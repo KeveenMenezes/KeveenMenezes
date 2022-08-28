@@ -1,8 +1,8 @@
-<style>
+
     *{
         font-family: courier
     }
-</style>
+
 
 <div>
 <h1 align = center > <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='40px'> Olá, bem vindo ao perfil do <br>Ke-vem!<h1>
