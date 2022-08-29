@@ -1,5 +1,5 @@
 <img height= "" align="center"  src="https://uploaddeimagens.com.br/images/004/000/751/original/paisagem_astronauta_gthb.jpg?1661745982">
-<img width="50%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
+<img width="30%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
 <h3 align = center> Tentando ser um Desenvolvedor Full-Stack, com foco, determinação,  aprendendo e aplicando, não é facil, mas estamos indo.</h3>
 
