@@ -1,10 +1,10 @@
 <img align="center"  src="https://media.discordapp.net/attachments/723999680345669701/1013663381644918814/paisagem_astronauta_gthb02.jpg?width=1025&height=203">
 <img width="30%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
-<h3 align = center> Tentando ser um Desenvolvedor Full-Stack, com foco, determinação,  aprendendo e aplicando, não é facil, mas estamos indo.</h3>
+[![github](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/keveen-menezes-52592162/) [![instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/keveenmenezes/)
 
+<h3 align = center> Tentando ser um Desenvolvedor Full-Stack, com foco, determinação,  aprendendo e aplicando, não é facil, mas estamos indo.</br> Fique avontade 😊</h3>
 
-### Fique avontade 😊 [![github](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/keveen-menezes-52592162/) [![instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/keveenmenezes/)
 <h2/>
 
 ### Minhas skills 💻
