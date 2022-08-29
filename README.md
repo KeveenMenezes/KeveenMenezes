@@ -1,8 +1,6 @@
-
+<img height= "" align="center"  src="https://uploaddeimagens.com.br/images/004/000/751/original/paisagem_astronauta_gthb.jpg?1661745982">
 <img width="50%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
-
-<h2 align = center>Eiii, bem vindo(a) ao meu perfil!  <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='30px'></h1>
 <h3 align = center> Tentando ser um Desenvolvedor Full-Stack, com foco, determinação,  aprendendo e aplicando, não é facil, mas estamos indo.</h3>
 
 
