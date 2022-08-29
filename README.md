@@ -1,13 +1,13 @@
 
-<img width="55%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
+<img width="40%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
 
-<h1 align = center> <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='40px'> Olá, bem vindo ao meu perfil!</h1>
-<h3 align = center > Sou um Desenvolvedor Full-Stack ou pretendo ser, sempre com foco e determinação em aprender e aplicar.</h3><h2/>
+<h2 align = center>Eiii, bem vindo(a) ao meu perfil!  <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='30px'></h1>
+<h3 align = center > Tentando ser um Desenvolvedor Full-Stack com foco e determinação em aprender e aplicar.</h3>
 
-### Meu contatos 📱
 
-[![github](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/keveen-menezes-52592162/) [![instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/keveenmenezes/)
+### Fique avontade  [![github](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/keveen-menezes-52592162/) [![instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/keveenmenezes/)
+<h2/>
 
 ### Minhas skills 💻
 
