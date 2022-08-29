@@ -1,5 +1,5 @@
 
-<img width="45%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
+<img width="50%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
 
 <h2 align = center>Eiii, bem vindo(a) ao meu perfil!  <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='30px'></h1>
