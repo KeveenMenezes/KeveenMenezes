@@ -23,10 +23,10 @@
 
 <ul>
 <a href="https://github.com/keveenmenezes/github-readme-stats">
-  <img style="height: 135px;" src="https://github-readme-stats.vercel.app/api?username=KeveenMenezes&hide=prs,issues,contribs&count_private=true&show_icons=true&theme=github_dark" />
+  <img style="height: 140px;" src="https://github-readme-stats.vercel.app/api?username=KeveenMenezes&hide=prs,issues,contribs&count_private=true&show_icons=true&theme=github_dark" />
 </a>
 <a href="https://github.com/keveenmenezes/convoychat">
-  <img style="height: 135px;" src="https://github-readme-stats.vercel.app/api/top-langs/?username=keveenmenezes&langs_count=3&layout=compact&theme=github_dark" />
+  <img style="height: 140px;" src="https://github-readme-stats.vercel.app/api/top-langs/?username=keveenmenezes&langs_count=3&layout=compact&theme=github_dark" />
 </a>
 </ul>
 
