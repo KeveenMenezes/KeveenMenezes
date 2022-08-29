@@ -21,14 +21,15 @@
     </tr>
 </table>
 
-<ul style="display: block;
-  margin-left: auto;
-  margin-right: auto;">
-<a href="https://github.com/keveenmenezes/github-readme-stats">
-  <img height="140px" align="left" src="https://github-readme-stats.vercel.app/api?username=KeveenMenezes&hide=prs,issues,contribs&count_private=true&show_icons=true&theme=github_dark" />
+<div style="display: grid;
+  grid-template-columns: 50% 50%" >
+<div style="display: grid;
+  grid-template-columns: 50% 50%" href="https://github.com/keveenmenezes/github-readme-stats">
+  <img  src="https://github-readme-stats.vercel.app/api?username=KeveenMenezes&hide=prs,issues,contribs&count_private=true&show_icons=true&theme=github_dark" />
+</div>
+<div style="display: grid;
+  grid-template-columns: 50% 50%" href="https://github.com/keveenmenezes/convoychat">
+  <img height=max src="https://github-readme-stats.vercel.app/api/top-langs/?username=keveenmenezes&langs_count=3&layout=compact&theme=github_dark" />
 </a>
-<a href="https://github.com/keveenmenezes/convoychat">
-  <img height="140px" align="left" src="https://github-readme-stats.vercel.app/api/top-langs/?username=keveenmenezes&langs_count=3&layout=compact&theme=github_dark" />
-</a>
-</ul>
+</div>
 
