@@ -1,6 +1,6 @@
 
 <div style="margin-top:420">
-<img width="420px" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
+<img width="50%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
 
 <h1 align = center> <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='40px'> Olá, bem vindo ao meu perfil!</h1>
