@@ -21,11 +21,11 @@
     </tr>
 </table>
 
-<ul align="center">
-<a height="145px" href="https://github.com/keveenmenezes/github-readme-stats">
+
+<a height="140px" href="https://github.com/keveenmenezes/github-readme-stats">
   <img align="center" src="https://github-readme-stats.vercel.app/api?username=KeveenMenezes&hide=prs,issues,contribs&count_private=true&show_icons=true&theme=github_dark" />
 </a>
 <a href="https://github.com/keveenmenezes/convoychat">
-  <img height="145px" align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=keveenmenezes&langs_count=3&layout=compact&theme=github_dark" />
+  <img height="140px" align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=keveenmenezes&langs_count=3&layout=compact&theme=github_dark" />
 </a>
-</ul>
+
