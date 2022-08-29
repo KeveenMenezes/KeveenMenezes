@@ -1,10 +1,16 @@
 <img align="center"  src="https://uploaddeimagens.com.br/images/004/000/752/original/paisagem_astronauta_gthb02.jpg?1661747873">
-<img width="40%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
+<img width="30%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif">
 
 
 [![github](https://img.shields.io/badge/LinkedIn-0d1117?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/keveen-menezes-52592162/) [![instagram](https://img.shields.io/badge/Instagram-0d1117?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/keveenmenezes/)
 
-<h3 align = left>Viajando nesse universo de tecnologia, para me tornar um</br>Desenvolvedor Full-Stack</br>com foco, determinação,  aprendendo e aplicando.<br/>Vou chegar lá, não é facil, mas estou indo.</h3>
+<h3>
+🚀 Viajando nesse universo de tecnologia.<br/>
+👨‍💻 Somnhando em ser Desenvolvedor Full-Stack.<br/>
+📚 Estudando e sendo minha preferida, JS.<br/>
+💡 Com foco, determinação, aprendendo e aplicando.<br/>
+👊 Este é o meu jeito ninja!<br/></h3>
+
 
 <h2/>
 
