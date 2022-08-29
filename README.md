@@ -1,11 +1,9 @@
 
-<div style="margin-top:420">
-<img width="50%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
+<img width="47%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
 
 <h1 align = center> <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='40px'> Olá, bem vindo ao meu perfil!</h1>
 <h3 align = center > Sou um Desenvolvedor Full-Stack ou pretendo ser, sempre com foco e determinação em aprender e aplicar.</h3><h2/>
-</div>
 
 ### Meu contatos 📱
 
