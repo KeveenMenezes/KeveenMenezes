@@ -4,7 +4,7 @@
 
 [![github](https://img.shields.io/badge/LinkedIn-0d1117?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/keveen-menezes-52592162/) [![instagram](https://img.shields.io/badge/Instagram-0d1117?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/keveenmenezes/)
 
-<h3 align = center > Viajando nesse universo de tecnologia, para me tornar um </br>Desenvolvedor Full-Stack</br> com foco, determinação,  aprendendo e aplicando sempre. <br/> Vou chegar lá, não é facil, mas estamos indo.</h3>
+<h3 align = center >Viajando nesse universo de tecnologia, para me tornar um</br>Desenvolvedor Full-Stack</br>com foco, determinação,  aprendendo e aplicando sempre. <br/>Vou chegar lá, não é facil, mas estou indo.</h3>
 
 <h2/>
 
