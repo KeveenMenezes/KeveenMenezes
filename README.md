@@ -21,7 +21,9 @@
     </tr>
 </table>
 
-<ul  style="margin-left: auto; margin-right: auto;">
+<ul  align="center" style="display: block;
+  margin-left: auto;
+  margin-right: auto;">
 <a href="https://github.com/keveenmenezes/github-readme-stats">
   <img height="140px" align="center" src="https://github-readme-stats.vercel.app/api?username=KeveenMenezes&hide=prs,issues,contribs&count_private=true&show_icons=true&theme=github_dark" />
 </a>
