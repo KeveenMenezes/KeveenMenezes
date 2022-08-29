@@ -1,10 +1,11 @@
 
+<div style="margin-top:420">
+<img width="420px" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
-<img width="420px"  frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/jOpLbiGmHR9S0/giphy.gif">
 
-
-<h1 align = center> <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='35px'> Olá, bem vindo ao meu perfil!</h1>
-<h3 align = center> Sou um Desenvolvedor Full-Stack ou pretendo ser, sempre com foco e determinação em aprender e aplicar.</h3><h2/>
+<h1 align = center> <img src='https://raw.githubusercontent.com/kaueMarques/kaueMarques/master/hi.gif' width='40px'> Olá, bem vindo ao meu perfil!</h1>
+<h3 align = center > Sou um Desenvolvedor Full-Stack ou pretendo ser, sempre com foco e determinação em aprender e aplicar.</h3><h2/>
+</div>
 
 ### Meu contatos 📱
 
@@ -12,7 +13,7 @@
 
 ### Minhas skills 💻
 
-<table>
+<table style="border:none">
     <tr style="border-top: 0px;">
         <td width=50% style="border: 0px; background:#0d1117;padding: 0px 0px;"> <h4>Front-End</h4> </td>
         <td  width=50% style="border: 0px; background:#0d1117;padding: 0px 0px;"> <h4>Back-End</h4> </td> 
