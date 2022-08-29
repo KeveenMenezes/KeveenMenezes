@@ -1,4 +1,4 @@
-<img align="center"  src="https://uploaddeimagens.com.br/images/004/000/752/original/paisagem_astronauta_gthb02.jpg?1661747873">
+<img align="center" style="border-radius: 10px;" src="https://uploaddeimagens.com.br/images/004/000/752/original/paisagem_astronauta_gthb02.jpg?1661747873">
 <img width="30%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif">
 
 
