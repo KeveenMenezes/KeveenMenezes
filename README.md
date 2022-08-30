@@ -1,7 +1,7 @@
 <img align="center" style="border-radius: 10px;" src="https://uploaddeimagens.com.br/images/004/000/752/original/paisagem_astronauta_gthb02.jpg?1661747873">
 <img width="30%" frameBorder="0" style="margin-top:40px;"  align ="right"  src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif">
 
-[![gmail](https://img.shields.io/badge/Gmail-0d1117?style=for-the-badge&logo=gmail&logoColor=white)](endykeven@gmail.com) [![Whatsapp](https://img.shields.io/badge/WhatsApp-0d1117?style=for-the-badge&logo=whatsapp&logoColor=white)](https://api.whatsapp.com/send/?phone=5531984237807&text&type=phone_number&app_absent=0) [![github](https://img.shields.io/badge/LinkedIn-0d1117?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/keveen-menezes-52592162/) [![instagram](https://img.shields.io/badge/Instagram-0d1117?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/keveenmenezes/)  
+[![gmail](https://img.shields.io/badge/Gmail-0d1117?style=for-the-badge&logo=gmail&logoColor=white)](mailto:endykeven@gmail.com) [![Whatsapp](https://img.shields.io/badge/WhatsApp-0d1117?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5531984237807) [![github](https://img.shields.io/badge/LinkedIn-0d1117?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/keveen-menezes-52592162/) [![instagram](https://img.shields.io/badge/Instagram-0d1117?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/keveenmenezes/)  
 
 
 <h3>
