@@ -9,7 +9,6 @@
 👨‍💻 Sonhando em ser Desenvolvedor Full-Stack.<br/>
 📚 Estudando e sendo minha preferida, JS.<br/>
 💡 Com foco, determinação, aprendendo e aplicando.<br/>
-👊 Este é o meu jeito ninja!<br/></h3>
 
 <h2/>
 
