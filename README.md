@@ -1,7 +1,18 @@
 <img align="center" src="https://uploaddeimagens.com.br/images/004/000/752/original/paisagem_astronauta_gthb02.jpg?1661747873">
+
+<div align="right" style="display: block; margin: 30px">
+<a href="https://www.linkedin.com/in/keveen-menezes-52592162"><img src="https://media.giphy.com/media/yDM1kJZthxFPoGDdmq/giphy.gif" height="30 px"></a>
+<a href="mailto:endykeven@gmail.com"><img src="https://media.giphy.com/media/KxlbRn0HuTW7gZID83/giphy.gif" height="30 px"></a>
+<a href="https://wa.me/5531984237807"><img src="https://media.giphy.com/media/jU9PVpqUvR0aNc3nvX/giphy.gif" height="30 px"></a>
+<a href="https://www.instagram.com/keveenmenezes/"><img src="https://media.giphy.com/media/QWpK88H1g9PtmtQly1/giphy.gif" height="30 px"></a>
+</div>
+
 <img width="30%" frameBorder="0"   align ="right"  src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif">
 
+<!--
 [![linkedin](https://img.shields.io/badge/LinkedIn-0d1117?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/keveen-menezes-52592162/) [![gmail](https://img.shields.io/badge/Gmail-0d1117?style=for-the-badge&logo=gmail&logoColor=white)](mailto:endykeven@gmail.com) [![Whatsapp](https://img.shields.io/badge/WhatsApp-0d1117?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5531984237807) [![instagram](https://img.shields.io/badge/Instagram-0d1117?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/keveenmenezes/)  
+-->
+
 
 <h3>
 👦 Tenho 21 anos, graduando em Sistemas de Informação na PUC Minas.<br/>
