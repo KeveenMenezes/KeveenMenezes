@@ -5,6 +5,7 @@
 
 
 <h3>
+👦 Tenho 21 anos, estudo Sistemas de informação na PUC Minas e moro na região metropolitana de BH. 
 🚀 Viajando nesse universo de tecnologia.<br/>
 👨‍💻 Sonhando em ser Desenvolvedor Full-Stack.<br/>
 📚 Estudando e sendo minha preferida, JS.<br/>
