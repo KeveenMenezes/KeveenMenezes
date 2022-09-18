@@ -11,10 +11,10 @@
 
 
 <div align ="top" frameBorder="0">
-<a href="https://www.linkedin.com/in/keveen-menezes-52592162"><img src="https://media.giphy.com/media/yDM1kJZthxFPoGDdmq/giphy.gif" height="30 px" ></a>
-<a href="mailto:endykeven@gmail.com"><img src="https://media.giphy.com/media/KxlbRn0HuTW7gZID83/giphy.gif" height="30 px"></a>
-<a href="https://wa.me/5531984237807"><img src="https://media.giphy.com/media/jU9PVpqUvR0aNc3nvX/giphy.gif" height="30 px"></a>
-<a href="https://www.instagram.com/keveenmenezes/"><img src="https://media.giphy.com/media/QWpK88H1g9PtmtQly1/giphy.gif" height="30 px"></a>
+<a href="mailto:endykeven@gmail.com"><img src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1626355319613x484158047569452200%2FGmail_Small_Business.gif?w=64&h=64&auto=compress&dpr=1&fit=max" height="35 px"></a>
+<a href="https://www.linkedin.com/in/keveen-menezes-52592162"><img src="https://cliply.co/wp-content/uploads/2021/02/372102050_LINKEDIN_ICON_TRANSPARENT_400.gif" height="35 px" ></a>
+<a href="https://wa.me/5531984237807"><img src="https://cliply.co/wp-content/uploads/2021/08/372108180_WHATSAPP_ICON_400.gif" height="35 px"></a>
+<a href="https://www.instagram.com/keveenmenezes/"><img src="https://cliply.co/wp-content/uploads/2019/07/371907300_INSTAGRAM_ICON_TRANSPARENT_400.gif" height="35 px"></a>
 </div>
 
 
