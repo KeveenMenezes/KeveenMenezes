@@ -5,7 +5,7 @@
 
 
 <h3>
-👦 Tenho 21 anos, faço Graduação em Sistemas de informação na PUC Minas.<br/>
+👦 Tenho 21 anos, graduando em Sistemas de Informação na PUC Minas.<br/>
 🚀 Moro na região metropolitana de BH, mas sou desapegado.<br/>
 👨‍💻 Sonhando em ser Desenvolvedor Full-Stack.<br/>
 📚 Estudando e sendo minha preferida, JS.<br/>
