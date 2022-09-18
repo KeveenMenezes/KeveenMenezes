@@ -26,11 +26,11 @@
 </table>
 
 
-<!--  <a href="https://github.com/keveenmenezes/github-readme-stats">
+<a href="https://github.com/keveenmenezes/github-readme-stats">
   <img align="center" style="width:56%" src="https://github-readme-stats.vercel.app/api?username=KeveenMenezes&hide=prs,issues,contribs&count_private=true&show_icons=true&theme=github_dark" />
 </a>
 <a href="https://github.com/keveenmenezes/convoychat">
   <img align="center" style="width:42%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=keveenmenezes&langs_count=4&layout=compact&theme=github_dark" />
 </a>
-//--> 
+
 
