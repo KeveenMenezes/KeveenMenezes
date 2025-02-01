@@ -22,11 +22,12 @@
 
 
 
-<h3  align ="left">
-🚀 Moro em BH, mas sou desapegado.<br/>
-👨‍💻 Sonho em ser Desenvolvedor Full-Stack.<br/>
-📚 Estudo e sendo minha preferida, C#.<br/>
-💡 Com foco, determinação, aprendendo e aplicando.<br/>
+<h3 align="left">
+👨‍💻 Desenvolvedor Full-Stack C# Pleno.<br/>
+🚀 Minha base fica em BH, mas sempre aberto a novas oportunidades.<br/>
+📚 Apaixonado por C# e sempre em busca de novos conhecimentos.<br/>
+💡 Com foco, determinação e uma constante jornada de aprendizado e aplicação prática.<br/>
+🔧 Adoto os princípios de Extreme Programming e sou apaixonado por Arquitetura de Software.<br/>
 </h3>
 </table>
 
