@@ -34,7 +34,7 @@ I'm the engineer who asks *"how does this keep working when volume grows?"* befo
   <img src="https://img.shields.io/badge/AWS%20Certified-Developer%20Associate-FF9900?style=flat-square&logo=amazonwebservices&logoColor=white" alt="AWS DVA">
 </p>
 
-B.S. in Information Systems — PUC Minas (2024)
+B.S. in Information Systems — PUC Minas (2023)
 
 ---
 
