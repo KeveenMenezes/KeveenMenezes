@@ -15,19 +15,17 @@
 
 ---
 
-Backend engineer specialized in the **.NET platform** — C#, ASP.NET Core and .NET Aspire, running on AWS as event-driven, distributed systems.
+Backend engineer and software architect specialized in the **.NET platform** — C#, ASP.NET Core and .NET Aspire — designing event-driven, distributed systems on **AWS**.
 
-Currently at **BMG Money** (credit fintech), where I own the architecture of the centralized communications platform: Kafka, ~50k messages/day.
+I work from the decision *before* the code. Choosing a pattern means understanding the problem it solves: Kafka with one message per second isn't a distributed architecture, it's just Kafka. Every call weighs the same four things — scalability, cost, maintainability, and what the business actually needs.
 
-**Stack** &nbsp;`C#` `.NET` `ASP.NET Core` `EF Core` `Apache Kafka` `AWS` `Lambda` `DynamoDB` `Step Functions` `Terraform` `CDK` `Docker` `Kubernetes` `SQL Server` `PostgreSQL` `React` `Next.js` `Angular`
+On AWS I design cloud-native instead of lift-and-shift: serverless where it earns its place, managed services over self-hosted, infrastructure as code, and observability built in from day one. Cloud cost is usually an architecture problem wearing a billing disguise, and that's where I like to work.
 
-**Architecture** &nbsp;`DDD` `Clean Architecture` `CQRS` `Event-Driven` `Microservices` `System Design`
+I'm the engineer who asks *"how does this keep working when volume grows?"* before the first line is written — and who documents the trade-off so the next person inherits the reasoning, not just the code.
 
-### [DuckStore.AWS](https://github.com/KeveenMenezes/DuckStore.AWS) — serverless-first .NET e-commerce
+**Stack** &nbsp;`C#` `.NET` `ASP.NET Core` `.NET Aspire` `EF Core` `Apache Kafka` `AWS` `Lambda` `DynamoDB` `Step Functions` `Terraform` `CDK` `Docker` `Kubernetes` `SQL Server` `PostgreSQL` `React` `Next.js` `Angular`
 
-10 bounded contexts with DDD and CQRS, Lambda Native AOT, infrastructure as code with AWS CDK, and **47 ADRs** documenting every trade-off. Built in public so the architectural reasoning is verifiable.
-
-[Live demo](https://duckstore.dev.keveenmenezes.com) · [Repository](https://github.com/KeveenMenezes/DuckStore.AWS)
+**Architecture** &nbsp;`DDD` `Clean Architecture` `CQRS` `Event-Driven` `Microservices` `System Design` `SOLID` `Design Patterns`
 
 ### Certifications
 
