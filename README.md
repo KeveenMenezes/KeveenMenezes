@@ -44,14 +44,3 @@ B.S. in Information Systems — PUC Minas (2024)
   <a href="mailto:keveenprofissional@gmail.com"><img src="https://img.shields.io/badge/Email-EA4335?style=flat-square&logo=gmail&logoColor=white" alt="Email"></a>
   <a href="https://wa.me/5531984237807"><img src="https://img.shields.io/badge/WhatsApp-25D366?style=flat-square&logo=whatsapp&logoColor=white" alt="WhatsApp"></a>
 </p>
-
-<table style="border:none; width: 100%;">
-  <tr>
-    <td style="width: 56%; border: none;">
-      <img align="center" style="width: 100%;" src="https://github-readme-stats.vercel.app/api?username=KeveenMenezes&hide=prs,issues,contribs&count_private=true&show_icons=true&theme=github_dark" alt="GitHub Stats" />
-    </td>
-    <td style="width: 42%; border: none;">
-      <img align="center" style="width: 100%;" src="https://github-readme-stats.vercel.app/api/top-langs/?username=keveenmenezes&langs_count=4&layout=compact&theme=github_dark" alt="Top Languages" />
-    </td>
-  </tr>
-</table>
