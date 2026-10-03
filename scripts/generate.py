@@ -989,18 +989,22 @@ def duck_timer(x, y):
     gap = SCHEDULE / len(SLOTS)  # 60 s between ducks
     css = (".dg{opacity:0;animation-timing-function:steps(1);animation-iteration-count:infinite}"
            "@keyframes ones{0%{opacity:1}10%,100%{opacity:0}}@keyframes tens{0%{opacity:1}16.667%,100%{opacity:0}}")
-    style = f'font-size="7.5" fill="{A["note"]}" class="mono"'
-    digit = f'font-size="7.5" fill="{A["note"]}"'
-    out = [f'<circle cx="{x}" cy="{y - 2.6}" r="3.2" fill="none" stroke="{A["note"]}"/>'
-           f'<path d="M{x} {y - 4.4}V{y - 2.6}H{x + 1.4}" fill="none" stroke="{A["note"]}"/>',
-           f'<text x="{x + 6}" y="{y}" {style}>next duck in 0:</text>']
-    dx = x + 6 + 15 * 4.5
+    fs, cw = 10, 6.0  # font size, mono advance
+    style = f'font-size="{fs}" fill="#a8a8a8" class="mono"'
+    digit = f'font-size="{fs}" fill="{P["cyan"]}"'
+    label = "next duck in 0:"
+    w = 22 + (len(label) + 2) * cw
+    out = [f'<rect x="{x}" y="{y - 11}" width="{w:.0f}" height="15" rx="7.5" fill="#151515" stroke="#2e2e2e"/>',
+           f'<circle cx="{x + 10}" cy="{y - 3.5}" r="4" fill="none" stroke="{P["cyan"]}" stroke-width="1.1"/>'
+           f'<path d="M{x + 10} {y - 5.8}V{y - 3.5}H{x + 11.8}" fill="none" stroke="{P["cyan"]}" stroke-width="1.1"/>',
+           f'<text x="{x + 18}" y="{y}" {style}>{label}</text>']
+    dx = x + 18 + len(label) * cw
     for d in range(6):  # tens: 5..0, ten seconds each
         out.append(f'<text class="dg mono" style="animation-name:tens;animation-duration:{gap:g}s;animation-delay:{(5 - d) * 10}s" '
                    f'x="{dx}" y="{y}" {digit}>{d}</text>')
     for d in range(10):  # ones: 9..0, one second each
         out.append(f'<text class="dg mono" style="animation-name:ones;animation-duration:10s;animation-delay:{9 - d}s" '
-                   f'x="{dx + 4.5}" y="{y}" {digit}>{d}</text>')
+                   f'x="{dx + cw}" y="{y}" {digit}>{d}</text>')
     return css, "".join(out)
 
 
@@ -1444,7 +1448,7 @@ def hero(user):
     )
     badges_css, badges = badge_cluster(582, 166, size=88)
     css += badges_css
-    timer_css, timer = duck_timer(806, 37)
+    timer_css, timer = duck_timer(784, 39)
     css += timer_css
     bd_css, bd_service, bd_duck = (retime(x, 16.0, SLOTS["bd"]) for x in builder_scene())
     pf_css, pf_duck = (retime(x, 18.0, SLOTS["pf"]) for x in platform_scene())
@@ -1498,7 +1502,7 @@ LIGHT_DIAGRAM = {
     P["bg"]: "#ffffff", "#121212": "#f5f6f8", "#242424": "#d0d7de", "#1e1e1e": "#e1e4e8", "#2b2b2b": "#c3c9d0",
     "#111111": "#f6f8fa", "#2c2c2c": "#cfd5dc", "#5a5a5a": "#6e7781", "#434343": "#6e7781", "#353535": "#8c959f",
     "#4b4b4b": "#6e7781", "#383838": "#9aa3ad", "#363636": "#b6bdc5", "#141414": "#f6f8fa", "#151515": "#d0d7de",
-    "#050505": "#24292f", "#000000": "#24292f", "#2f2f2f": "#8c959f", "#262626": "#c3c9d0", "#202020": "#57606a",
+    "#050505": "#24292f", "#000000": "#24292f", "#a8a8a8": "#424a53", "#2f2f2f": "#8c959f", "#262626": "#c3c9d0", "#202020": "#57606a",
     # duck feathers turn yellow; lab coats and suits stay light grey
     "#f2f2f2": "#ffd84d", "#d9d9d9": "#f5c02e", "#b4b4b4": "#d99a1e",
 }
