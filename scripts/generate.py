@@ -3,12 +3,13 @@
 
 - activity-{dark,light}.svg : contributions per month (a pixel duck hops across
                            the bars), contribution mix and busiest weekdays.
-- hero-{dark,light}.svg  : see-through pixel-art space header with the astronaut duck and AWS badges.
+- hero-{dark,light}.svg  : see-through pixel-art space header with the flying astronaut duck and AWS badges.
 - stats-{dark,light}.svg : animated activity card (contributions, commits, PRs,
                            streaks, years on GitHub and top languages).
 
 Only uses the standard library; reads GITHUB_TOKEN / GH_TOKEN from the env.
 """
+import base64
 import json
 import math
 import os
@@ -77,70 +78,30 @@ def fetch():
     return body["data"]["user"]
 
 
-# ---------------------------------------------------------------- duck sprite
-# Pixel-art astronaut duck, facing right.
-#   R helmet rim  H helmet glass  h glass highlight  W duck  E eye  Y beak/feet
-#   S suit  s suit shade  P mission patch  J jetpack  B boots  F flame
-DUCK = [
-    "......RRRRRRRR........",
-    "....RRHHHHHHHHRR......",
-    "...RHhhWWWWWWHHHR.....",
-    "..RHhWWWWWWWWWWHHR....",
-    "..RHhWWWWWWWWEWWHR....",
-    "..RHWWWWWWWWWWWYYYR...",
-    "..RHWWWWWWWWWWYYYYR...",
-    "..RHHWWWWWWWWWWHHHR...",
-    "...RHHHWWWWWWHHHHR....",
-    "....RRRRRRRRRRRRR.....",
-    "..JJ.SSSSSSSSSSS......",
-    ".JJJSSSSSSSSSSSSs.....",
-    ".JJJSSSSSSPPSSSSss....",
-    ".JJJSSSSSSPPSSSSss....",
-    ".JJJsSSSSSSSSSSSss....",
-    ".JJJssSSSSSSSSSss.....",
-    "..JJ.ssssssssss.......",
-    "......BB....BB........",
-    "......BB....BB........",
-    ".....YYYY..YYYY.......",
-]
-FLAME = [(2, 17), (1, 18), (2, 18), (3, 18), (2, 19)]
-PALETTE = {
-    "R": "#8b93a7", "H": "#2b3a78", "h": "#c9d6ff", "W": "#ffffff", "E": "#1f2328",
-    "Y": "#ff8a1f", "S": "#eef1f7", "s": "#b9c0d0", "P": "#7355dd", "J": "#5b6ee0",
-    "B": "#6b7385", "F": "#ffb347",
-}
-OUTLINE = "#14121f"
-SPRITE_W, SPRITE_H = len(DUCK[0]), len(DUCK) + 1
+# ---------------------------------------------------------------- duck frames
+# The flying astronaut duck is drawn by scripts/duck_frames.py (needs Pillow) into
+# assets/duck/{big,small}; here we only embed those PNGs and flip through them with CSS.
+ASSETS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets")
 
 
-def pixels_to_rects(cells, px):
-    return "".join(
-        f'<rect x="{x * px:g}" y="{y * px:g}" width="{px:g}" height="{px:g}" fill="{PALETTE[c]}"/>'
-        for (x, y, c) in cells
-    )
+def duck_meta():
+    with open(os.path.join(ASSETS, "duck", "meta.json")) as f:
+        return json.load(f)
 
 
-def outline_of(cells, px):
-    filled = {(x, y) for x, y, _ in cells}
-    ring = {
-        (x + dx, y + dy)
-        for x, y in filled
-        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))
-        if (x + dx, y + dy) not in filled
-    }
-    return "".join(f'<rect x="{x * px:g}" y="{y * px:g}" width="{px:g}" height="{px:g}" fill="{OUTLINE}"/>' for x, y in ring)
-
-
-def duck_svg(px):
-    """Astronaut duck; animate with .bob, .foot-a, .foot-b and .flame classes."""
-    cells = [(x, y, c) for y, row in enumerate(DUCK) for x, c in enumerate(row) if c != "."]
-    legs_from = 17
-    body = [c for c in cells if c[1] < legs_from]
-    back = [c for c in cells if c[1] >= legs_from and c[0] < 10]
-    front = [c for c in cells if c[1] >= legs_from and c[0] >= 10]
-    flame = [(x, y, "F") for x, y in FLAME]
-    group = lambda cls, cs: f'<g class="{cls}">{outline_of(cs, px)}{pixels_to_rects(cs, px)}</g>'
-    return group("flame", flame) + group("foot-a", back) + group("foot-b", front) + group("bob", body)
+def duck_frames(size_dir, x, y, size, cls):
+    """Returns (css, svg) showing one frame at a time."""
+    meta = duck_meta()
+    n, ms = meta["frames"], meta["frame_ms"]
+    css = (f".{cls}{{opacity:0;image-rendering:pixelated;animation:{cls} {n * ms}ms steps(1) infinite}}"
+           f"@keyframes {cls}{{0%{{opacity:1}}{100 / n:.3f}%,100%{{opacity:0}}}}")
+    images = []
+    for i in range(n):
+        with open(os.path.join(ASSETS, "duck", size_dir, f"{i:02d}.png"), "rb") as f:
+            data = base64.b64encode(f.read()).decode()
+        images.append(f'<image class="{cls}" style="animation-delay:{i * ms}ms" href="data:image/png;base64,{data}" '
+                      f'x="{x}" y="{y}" width="{size}" height="{size}"/>')
+    return css, "".join(images)
 
 
 # ------------------------------------------------------------ activity card
@@ -167,7 +128,7 @@ def activity_card(user, theme):
     ]
 
     width, height = 820, 300
-    cycle, px = 13.0, 2
+    cycle = 13.0
     style = [
         f"text{{font-family:{FONT};fill:{t['text']}}}",
         f".muted{{fill:{t['muted']}}}",
@@ -179,13 +140,6 @@ def activity_card(user, theme):
         "@keyframes gx{to{transform:scaleX(1)}}",
         ".in{opacity:0;animation:in .6s ease-out forwards}",
         "@keyframes in{to{opacity:1}}",
-        ".bob{animation:bob .3s ease-in-out infinite alternate}",
-        "@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-2px)}}",
-        ".foot-a{animation:step .3s steps(1) infinite}",
-        ".foot-b{animation:step .3s steps(1) infinite reverse}",
-        "@keyframes step{0%{transform:translateY(-2px)}50%{transform:translateY(0)}}",
-        ".flame{animation:flame .15s steps(1) infinite alternate}",
-        "@keyframes flame{from{opacity:1}to{opacity:.35}}",
     ]
     parts = [
         f'<text x="24" y="32" font-size="15" font-weight="600">Contributions per month</text>',
@@ -193,7 +147,7 @@ def activity_card(user, theme):
         f'<text x="560" y="198" font-size="15" font-weight="600">Busiest weekdays</text>',
     ]
 
-    # monthly bars; the duck hops from the top of one bar to the next
+    # monthly bars; the duck flies from the top of one bar to the next
     left, chart_w, base, chart_h = 24, 500, 252, 170
     pitch = chart_w / len(months)
     bar_w = pitch - 14
@@ -215,21 +169,23 @@ def activity_card(user, theme):
         f'best month: {MONTHS[int(best_ym[5:]) - 1]} · {best_v}</text>'
     )
 
-    duck_w, duck_h = SPRITE_W * px, SPRITE_H * px
+    duck_css, duck_svg = duck_frames("small", 0, 0, 64, "fs")
+    style.append(duck_css)
+    anchor_x, anchor_y = 38, 50  # body centre / feet on the 64px canvas
     seg = 0.9 / len(tops)  # last 10% of the cycle the duck fades out and resets
     frames = []
     for i, (cx, top) in enumerate(tops):
-        x, y = cx - duck_w / 2, top - duck_h
+        x, y = cx - anchor_x, top - anchor_y
         p = i * seg * 100
         frames.append(f"{p:.2f}%{{transform:translate({x:.1f}px,{y:.1f}px);opacity:1}}")
         frames.append(f"{p + seg * 50:.2f}%{{transform:translate({x:.1f}px,{y:.1f}px);opacity:1}}")
         if i + 1 < len(tops):
-            nx, ny = tops[i + 1][0] - duck_w / 2, tops[i + 1][1] - duck_h
+            nx, ny = tops[i + 1][0] - anchor_x, tops[i + 1][1] - anchor_y
             hop = min(y, ny) - 22
             frames.append(f"{p + seg * 75:.2f}%{{transform:translate({(x + nx) / 2:.1f}px,{hop:.1f}px);opacity:1}}")
-    lx, ly = tops[-1][0] - duck_w / 2, tops[-1][1] - duck_h
+    lx, ly = tops[-1][0] - anchor_x, tops[-1][1] - anchor_y
     frames.append(f"95%{{transform:translate({lx:.1f}px,{ly:.1f}px);opacity:0}}")
-    frames.append(f"100%{{transform:translate({tops[0][0] - duck_w / 2:.1f}px,{tops[0][1] - duck_h:.1f}px);opacity:0}}")
+    frames.append(f"100%{{transform:translate({tops[0][0] - anchor_x:.1f}px,{tops[0][1] - anchor_y:.1f}px);opacity:0}}")
     style.append(f"#duck{{animation:hop {cycle}s ease-in-out infinite}}@keyframes hop{{{''.join(frames)}}}")
 
     # contribution mix: donut + legend
@@ -278,7 +234,7 @@ def activity_card(user, theme):
 <rect x=".5" y=".5" width="{width - 1}" height="{height - 1}" rx="10" fill="{t['bg']}" stroke="{t['border']}"/>
 <line x1="540" y1="20" x2="540" y2="{height - 20}" stroke="{t['border']}"/>
 {''.join(parts)}
-<g id="duck">{duck_svg(px)}</g>
+<g id="duck">{duck_svg}</g>
 </svg>"""
 
 
@@ -293,7 +249,6 @@ ABOUT = [
     "inherits the reasoning.",
 ]
 BADGES = ["sap", "saa", "dva"]
-ASSETS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets")
 
 
 def wrap(text, limit):
@@ -385,22 +340,36 @@ def galaxy(width, height, rng, t):
     return rects + "".join(stars)
 
 
-ASTRO_FRAMES, ASTRO_MS = 18, 40
+DUCK_X, DUCK_Y, DUCK_SIZE = 716, 16, 256  # 128px canvas shown at 2x
 
 
-def astro_frames():
-    """Pixelated astronaut version of the old walking duck (assets/astro, built by
-    scripts/astronaut_frames.py); one <image> per frame, shown in turn via CSS."""
-    import base64
-    out = []
-    for i in range(ASTRO_FRAMES):
-        with open(os.path.join(ASSETS, "astro", f"{i:02d}.png"), "rb") as f:
-            data = base64.b64encode(f.read()).decode()
-        out.append(
-            f'<image class="fr" style="animation-delay:{i * ASTRO_MS}ms" href="data:image/png;base64,{data}" '
-            f'x="790" y="44" width="196" height="196"/>'
-        )
-    return "".join(out)
+def exhaust(theme, rng):
+    """Sparks and smoke puffs streaming out of the jetpack, animated in CSS so they move smoothly."""
+    meta = duck_meta()
+    k = DUCK_SIZE / meta["canvas"]
+    nx, ny = DUCK_X + meta["nozzle"][0] * k, DUCK_Y + meta["nozzle"][1] * k
+    dx, dy = meta["exhaust_dir"]
+    lift = math.radians(-12)  # let the trail drift a bit flatter than the nozzle
+    dx, dy = dx * math.cos(lift) - dy * math.sin(lift), dx * math.sin(lift) + dy * math.cos(lift)
+    px, py = -dy, dx
+    sparks = {"dark": ["#ffffff", "#ffd23f", "#ff8a1f", "#ffb347"],
+              "light": ["#ff8a1f", "#ffb347", "#f05a28", "#7355dd"]}[theme]
+    smoke, smoke_alpha = {"dark": ("#c9c0ff", .3), "light": ("#c4bdf0", .45)}[theme]
+    css, els = [], []
+    for j in range(24):
+        puff = j % 3 == 0
+        dur = rng.uniform(1.2, 1.9) if puff else rng.uniform(.55, 1.05)
+        dist = rng.uniform(55, 95) if puff else rng.uniform(35, 75)
+        side = rng.gauss(0, 9 if puff else 6)
+        size = 8 if puff else rng.choice([3, 4, 4, 5])
+        sx, sy = nx + dx * 34, ny + dy * 34
+        tx, ty = dx * dist + px * side, dy * dist + py * side + rng.uniform(-4, 6)
+        css.append(f"@keyframes x{j}{{0%{{transform:translate(0,0) scale(1);opacity:{smoke_alpha if puff else 1}}}"
+                   f"100%{{transform:translate({tx:.1f}px,{ty:.1f}px) scale({2.0 if puff else .3});opacity:0}}}}")
+        els.append(f'<rect x="{sx - size / 2:.1f}" y="{sy - size / 2:.1f}" width="{size}" height="{size}" '
+                   f'fill="{smoke if puff else rng.choice(sparks)}" style="transform-box:fill-box;transform-origin:center;'
+                   f'animation:x{j} {dur:.2f}s ease-out {-rng.uniform(0, dur):.2f}s infinite"/>')
+    return "".join(css), "".join(els)
 
 
 def hero(theme):
@@ -409,15 +378,18 @@ def hero(theme):
 
     t = HERO_THEMES[theme]
     rng = random.Random(7)
+    duck_css, duck_svg = duck_frames("big", DUCK_X, DUCK_Y, DUCK_SIZE, "fb")
+    fx_css, fx_svg = exhaust(theme, random.Random(11))
     width, height = 1000, 380
     style = [
         f"text{{font-family:{FONT}}}",
         ".tw{animation:tw 3s ease-in-out infinite alternate}",
         "@keyframes tw{from{opacity:1}to{opacity:.2}}",
-        "#astro{animation:float 4s ease-in-out infinite alternate}",
-        "@keyframes float{from{transform:translateY(6px)}to{transform:translateY(-8px)}}",
-        f".fr{{opacity:0;image-rendering:pixelated;animation:fr {ASTRO_MS * ASTRO_FRAMES}ms steps(1) infinite}}",
-        f"@keyframes fr{{0%{{opacity:1}}{100 / ASTRO_FRAMES:.3f}%,100%{{opacity:0}}}}",
+        ".drift{animation:drift 5.2s ease-in-out infinite alternate}",
+        "@keyframes drift{from{transform:translateX(-6px)}to{transform:translateX(8px)}}",
+        f".float{{transform-origin:{DUCK_X + DUCK_SIZE * 76 / 128:.0f}px {DUCK_Y + DUCK_SIZE * 64 / 128:.0f}px;"
+        "animation:float 3.4s ease-in-out infinite alternate}",
+        "@keyframes float{from{transform:translateY(7px) rotate(-2.5deg)}to{transform:translateY(-9px) rotate(2deg)}}",
         ".badge{animation:bf 3s ease-in-out infinite alternate}",
         "@keyframes bf{from{transform:translateY(0)}to{transform:translateY(-6px)}}",
         ".glint{animation:glint 5s ease-in-out infinite}",
@@ -468,12 +440,12 @@ def hero(theme):
 <linearGradient id="shine" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
 <clipPath id="frame"><rect width="{width}" height="{height}" rx="14"/></clipPath>
 </defs>
-<style>{''.join(style)}</style>
+<style>{''.join(style)}{duck_css}{fx_css}</style>
 <g clip-path="url(#frame)">
 <rect width="{width}" height="{height}" fill="{t['tint']}" opacity="{t['tint_opacity']}"/>
 {galaxy(width, height, rng, t)}
 <g shape-rendering="auto">{''.join(text)}</g>
-<g id="astro">{astro_frames()}</g>
+<g class="drift"><g class="float">{fx_svg}{duck_svg}</g></g>
 <g shape-rendering="auto">{''.join(badges)}</g>
 </g>
 <rect x=".5" y=".5" width="{width - 1}" height="{height - 1}" rx="14" fill="none" stroke="{t['border']}"/>
