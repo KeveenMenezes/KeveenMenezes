@@ -46,13 +46,13 @@ query($login: String!) {
 THEMES = {
     "dark": {
         "bg": "#0d1117", "border": "#30363d", "text": "#e6edf3", "muted": "#7d8590",
-        "accent": "#39d353",
-        "levels": ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
+        "accent": ["#9b82f3", "#5b9bf0"],  # C# purple -> TypeScript blue
+        "levels": ["#161b22", "#1f2f5c", "#2f5fae", "#5b6ee0", "#9b82f3"],
     },
     "light": {
         "bg": "#ffffff", "border": "#d0d7de", "text": "#1f2328", "muted": "#656d76",
-        "accent": "#1a7f37",
-        "levels": ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
+        "accent": ["#6a46d8", "#2f6fc0"],
+        "levels": ["#ebedf0", "#bcd0f5", "#6f9be6", "#5568d6", "#5a3fc0"],
     },
 }
 LEVEL = {"NONE": 0, "FIRST_QUARTILE": 1, "SECOND_QUARTILE": 2, "THIRD_QUARTILE": 3, "FOURTH_QUARTILE": 4}
@@ -245,7 +245,7 @@ def stats_card(user, theme):
     style = [
         f"text{{font-family:{FONT};fill:{t['text']}}}",
         f".muted{{fill:{t['muted']}}}",
-        f".num{{font-size:26px;font-weight:700;fill:{t['accent']}}}",
+        ".num{font-size:26px;font-weight:700;fill:url(#accent)}",
         ".in{opacity:0;animation:in .6s ease-out forwards}",
         "@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}",
         ".bar{transform-origin:left;transform:scaleX(0);animation:grow 1.2s cubic-bezier(.2,.8,.2,1) forwards}",
@@ -286,6 +286,7 @@ def stats_card(user, theme):
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
 <style>{''.join(style)}</style>
 <rect x=".5" y=".5" width="{width - 1}" height="{height - 1}" rx="10" fill="{t['bg']}" stroke="{t['border']}"/>
+<defs><linearGradient id="accent" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="{t['accent'][0]}"/><stop offset="1" stop-color="{t['accent'][1]}"/></linearGradient></defs>
 <text x="24" y="30" font-size="15" font-weight="600" class="in">GitHub activity</text>
 {''.join(parts)}
 </svg>"""
