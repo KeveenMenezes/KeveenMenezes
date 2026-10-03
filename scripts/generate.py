@@ -1388,7 +1388,7 @@ def hero(user):
         ".scan{animation:scan 7s ease-in-out infinite}@keyframes scan{0%,15%{transform:none}60%,100%{transform:translateX(135px)}}"
         "@keyframes bob{to{transform:translateY(-3px)}}"
     )
-    badges_css, badges = badge_cluster(548, 176, size=76)
+    badges_css, badges = badge_cluster(548, 166, size=76)
     css += badges_css
     bd_css, bd_service, bd_duck = builder_scene()
     pf_css, pf_duck = platform_scene()
