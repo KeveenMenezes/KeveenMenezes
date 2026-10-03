@@ -1,17 +1,22 @@
-<h1 align="center">Keveen Menezes</h1>
+<img align="right" width="190" src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif" alt="Walking duck">
 
-<p align="center">
+<h1>Keveen Menezes</h1>
+
+<p>
   <b>.NET Specialist</b> · Distributed Systems · AWS<br>
   <sub>5+ years building software · Belo Horizonte, Brazil</sub>
 </p>
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET">
   <img src="https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white" alt="C#">
   <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white" alt="AWS">
   <img src="https://img.shields.io/badge/Apache%20Kafka-231F20?style=flat-square&logo=apachekafka&logoColor=white" alt="Kafka">
   <img src="https://img.shields.io/badge/2x%20AWS%20Certified-FF9900?style=flat-square&logo=amazonwebservices&logoColor=white" alt="2x AWS Certified">
+  <a href="https://github.com/KeveenMenezes?tab=followers"><img src="https://img.shields.io/github/followers/KeveenMenezes?style=flat-square&logo=github&label=Followers&color=24292f" alt="Followers"></a>
 </p>
+
+<br clear="right">
 
 ---
 
@@ -35,6 +40,20 @@ I'm the engineer who asks *"how does this keep working when volume grows?"* befo
 </p>
 
 B.S. in Information Systems — PUC Minas (2023)
+
+### On GitHub
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/stats-dark.svg">
+  <img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/stats-light.svg" alt="GitHub activity">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/duck-dark.svg">
+  <img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/duck-light.svg" alt="A duck walking across the contribution graph">
+</picture>
+
+<sub>Updated twice a day by a <a href="./.github/workflows/profile-svgs.yml">GitHub Action</a> — no third-party stats service.</sub>
 
 ---
 
