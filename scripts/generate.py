@@ -1345,7 +1345,7 @@ def translation():
 </defs>
 <g clip-path="url(#tAlien)" opacity="0"><animate attributeName="opacity" values="0;1" dur=".5s" begin="0s" fill="freeze"/>{alien_svg}</g>
 <g clip-path="url(#tCodeL)"><g clip-path="url(#tCodeR)">{code}</g></g>
-<g clip-path="url(#tText)" class="sans" font-size="15.5" fill="{P['body']}">{english}</g>
+<g clip-path="url(#tText)" class="sans" font-size="16.2" fill="{P['body']}">{english}</g>
 {scan(P["cyan"], w1s, w1e)}{scan(P["orange"], w2s, w2e)}"""
 
 
@@ -1388,7 +1388,7 @@ def hero(user):
         ".scan{animation:scan 7s ease-in-out infinite}@keyframes scan{0%,15%{transform:none}60%,100%{transform:translateX(135px)}}"
         "@keyframes bob{to{transform:translateY(-3px)}}"
     )
-    badges_css, badges = badge_cluster(630, 176, size=88)
+    badges_css, badges = badge_cluster(624, 183, size=92)
     css += badges_css
     bd_css, bd_service, bd_duck = builder_scene()
     pf_css, pf_duck = platform_scene()
@@ -1396,18 +1396,18 @@ def hero(user):
     css += bd_css + pf_css + sr_css
     dot = '<tspan fill="#474747">·</tspan>'
     text = f"""<g class="in">
-<text x="56" y="62" font-size="11.5" letter-spacing="1.9" fill="#737373" class="mono">5+ YEARS BUILDING SOFTWARE · BELO HORIZONTE, BR<tspan class="cur" fill="{P['orange']}"> ▍</tspan></text>
+<text x="56" y="62" font-size="12" letter-spacing="1.9" fill="#737373" class="mono">5+ YEARS BUILDING SOFTWARE · BELO HORIZONTE, BR<tspan class="cur" fill="{P['orange']}"> ▍</tspan></text>
 </g>
-<g class="in sans" style="animation-delay:.1s" font-size="32" font-weight="620" letter-spacing="-0.7" fill="{P['text']}">
-<text x="54" y="114"><tspan fill="{P['purple']}">.NET</tspan> Specialist {dot} Solution Architecture</text>
+<g class="in sans" style="animation-delay:.1s" font-size="34" font-weight="620" letter-spacing="-0.7" fill="{P['text']}">
+<text x="54" y="112"><tspan fill="{P['purple']}">.NET</tspan> Specialist {dot} Solution Architecture</text>
 <text x="54" y="154">Distributed Systems {dot} <tspan fill="{P['orange']}">AWS</tspan></text>
 </g>
 {translation()}
 <g class="in" style="animation-delay:.35s">
 <rect x="56" y="270" width="3" height="27" rx="1.5" fill="url(#quotebar)"/>
-<text x="72" y="291" font-size="22" font-weight="520" letter-spacing="-0.3" fill="#bdbdbd" class="sans">I pick patterns for the problem, <tspan fill="#ffffff" font-weight="600">not the hype.</tspan></text>
-<text x="56" y="320" font-size="12" fill="{P['comment']}" class="mono">// weighing scalability, cost, maintainability and business needs</text>
-<text x="56" y="338" font-size="12" fill="{P['comment']}" class="mono">// trade-offs documented, so the next person inherits the reasoning</text>
+<text x="72" y="291" font-size="22.5" font-weight="520" letter-spacing="-0.3" fill="#bdbdbd" class="sans">I pick patterns for the problem, <tspan fill="#ffffff" font-weight="600">not the hype.</tspan></text>
+<text x="56" y="320" font-size="12.5" fill="{P['comment']}" class="mono">// weighing scalability, cost, maintainability and business needs</text>
+<text x="56" y="339" font-size="12.5" fill="{P['comment']}" class="mono">// trade-offs documented, so the next person inherits the reasoning</text>
 </g>"""
     defs = f"""<linearGradient id="quotebar" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="{P['blue']}"/><stop offset="1" stop-color="{P['purple']}"/></linearGradient>
 <linearGradient id="beamfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="{P['cyan']}" stop-opacity="0"/><stop offset=".6" stop-color="{P['cyan']}" stop-opacity=".45"/><stop offset="1" stop-color="{P['cyan']}" stop-opacity=".15"/></linearGradient>
