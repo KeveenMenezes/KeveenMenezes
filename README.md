@@ -40,13 +40,13 @@ B.S. in Information Systems — PUC Minas (2023)
 ### On GitHub
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/stats-dark.svg">
-  <img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/stats-light.svg" alt="GitHub activity">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/stats-dark.svg?v=2">
+  <img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/stats-light.svg?v=2" alt="GitHub activity">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/duck-dark.svg">
-  <img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/duck-light.svg" alt="A duck walking across the contribution graph">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/duck-dark.svg?v=2">
+  <img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/duck-light.svg?v=2" alt="A duck walking across the contribution graph">
 </picture>
 
 <sub>Updated twice a day by a <a href="./.github/workflows/profile-svgs.yml">GitHub Action</a> — no third-party stats service.</sub>
