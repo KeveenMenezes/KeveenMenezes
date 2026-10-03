@@ -950,7 +950,37 @@ def actor(cls, frames, colors, period, script, px=2, rest="stand"):
 
 
 # ---------------------------------------------------------------- lab ducks at work (hero)
-OFF = 1012  # just past the right edge
+OFF = 1112  # just past the right edge
+
+
+SCHEDULE = 180.0  # seconds; the ducks take turns, never on screen together
+SLOTS = {"bd": 0.0, "pf": 60.0, "sr": 120.0}
+
+
+def retime(markup, local, offset, period=SCHEDULE):
+    """Stretches a scene written for a `local`-second loop into its slot of the shared schedule:
+    CSS keyframes and durations, plus SMIL dur/keyTimes. Each keyframes block is pinned to its
+    first/last state outside the slot so the scene rests (hidden) the rest of the time."""
+    import re
+    scale = lambda pct: (offset + float(pct) / 100 * local) / period * 100
+
+    def block(m):
+        steps = re.findall(r'([\d.%,\s]+)\{([^{}]*)\}', m.group(2))
+        out = []
+        for sel, props in steps:
+            sel = ",".join(f"{scale(v.strip().rstrip('%')):.3f}%" for v in sel.split(",") if v.strip())
+            out.append(f"{sel}{{{props}}}")
+        return f"@keyframes {m.group(1)}{{0%{{{steps[0][1]}}}{''.join(out)}100%{{{steps[-1][1]}}}}}"
+
+    markup = re.sub(r'@keyframes ([\w-]+)\{((?:[^{}]*\{[^{}]*\})*)\}', block, markup)
+    markup = re.sub(rf'(\s|:){local:g}(?:\.0)?s\b', rf'\g<1>{period:g}s', markup)
+    markup = markup.replace(f'dur="{local}s"', f'dur="{period:g}s"')
+
+    def keytimes(m):
+        vals = [float(v) for v in m.group(1).split(";")]
+        mid = [f"{(offset + v * local) / period:.4f}" for v in vals[1:-1]]
+        return 'keyTimes="0;' + ";".join(mid) + ';1"'
+    return re.sub(r'keyTimes="([\d.;]+)"', keytimes, markup)
 
 
 def builder_scene():
@@ -1073,11 +1103,13 @@ def platform_scene():
 def sre_scene():
     """Round-glasses duck lives at the trace waterfall: types, gets the slow span from 182 ms to
     96 ms, celebrates, and goes back to typing (the span regresses so the loop can repeat)."""
-    T, top, stop = 20.0, 380 - 46, 946
+    T, top, stop = 20.0, 314 - 46, 1052
     here, hop = (stop, top), (stop, top - 5)
     typing = ["type1", "type2"]
     css, duck = actor("sr", SCI_SRE, SCI_COLORS, T, [
-        (0, 3.1, here, here, typing, .14, -1),
+        (0, .3, (OFF, top), (OFF, top), ["stand"], 1, -1),
+        (.3, 1.6, (OFF, top), here, WALK, .12, -1),
+        (1.6, 3.1, here, here, typing, .14, -1),
         (3.1, 3.25, here, here, ["typeblink"], 1, -1),
         (3.25, 6.2, here, here, typing, .14, -1),
         (6.2, 6.45, here, hop, ["cheer"], 1, -1),
@@ -1089,14 +1121,16 @@ def sre_scene():
         (8.55, 9.4, here, here, ["stand"], 1, -1),
         (9.4, 13.6, here, here, typing, .14, -1),
         (13.6, 13.75, here, here, ["typeblink"], 1, -1),
-        (13.75, T, here, here, typing, .14, -1),
+        (13.75, 17.6, here, here, typing, .14, -1),
+        (17.6, 19.0, here, (OFF, top), WALK, .12, 1),
+        (19.0, T, (OFF, top), (OFF, top), ["stand"], 1, 1),
     ], rest="type1")
     pct = lambda s: f"{s / T * 100:.2f}%"
     css += (
         f".crit{{transform-box:fill-box;transform-origin:left;animation:crit {T}s infinite}}"
         f"@keyframes crit{{0%,{pct(4.4)}{{transform:none}}{pct(5.6)},{pct(18.4)}{{transform:scaleX(.5)}}{pct(19.4)},100%{{transform:none}}}}"
         f".after{{animation:after {T}s infinite}}"
-        f"@keyframes after{{0%,{pct(4.4)}{{transform:none}}{pct(5.6)},{pct(18.4)}{{transform:translateX(-20px)}}{pct(19.4)},100%{{transform:none}}}}"
+        f"@keyframes after{{0%,{pct(4.4)}{{transform:none}}{pct(5.6)},{pct(18.4)}{{transform:translateX(-15px)}}{pct(19.4)},100%{{transform:none}}}}"
         f".root{{transform-box:fill-box;transform-origin:left;animation:root {T}s infinite}}"
         f"@keyframes root{{0%,{pct(4.4)}{{transform:none}}{pct(5.6)},{pct(18.4)}{{transform:scaleX(.85)}}{pct(19.4)},100%{{transform:none}}}}"
         f".slow{{animation:slow {T}s infinite}}@keyframes slow{{0%,{pct(5.4)}{{opacity:1}}{pct(5.7)},{pct(18.6)}{{opacity:0}}{pct(19)},100%{{opacity:1}}}}"
@@ -1165,12 +1199,11 @@ def architecture():
     note = f'font-size="6.5" fill="{A["note"]}" class="mono"'
     parts = [
         # region + vpc
-        f'<rect x="626" y="20" width="360" height="372" rx="12" fill="none" stroke="{A["frame"]}" stroke-dasharray="4 4"/>',
+        f'<rect x="626" y="20" width="470" height="298" rx="12" fill="none" stroke="{A["frame"]}" stroke-dasharray="4 4"/>',
         f'<rect x="640" y="32" width="5" height="5" rx="1" fill="{P["orange"]}" opacity=".85"/>',
         f'<text x="651" y="37" font-size="8" letter-spacing="1.4" fill="#4b4b4b" class="mono">AWS · SA-EAST-1</text>',
-        f'<text x="972" y="37" font-size="7.5" text-anchor="end" fill="{A["note"]}" class="mono">duckstore · prod</text>',
-        f'<rect x="640" y="46" width="332" height="334" rx="8" fill="none" stroke="{A["vpc"]}"/>',
-        f'<text x="650" y="375" {note}>vpc · 10.0.0.0/16 · 2 az</text>',
+        f'<text x="1082" y="37" font-size="7.5" text-anchor="end" fill="{A["note"]}" class="mono">duckstore · prod · vpc 10.0.0.0/16</text>',
+        f'<rect x="640" y="46" width="332" height="262" rx="8" fill="none" stroke="{A["vpc"]}"/>',
         # edge row
         wire("M674 80H710"), wire("M730 80H766"), wire("M786 80H822", dashed=True),
         wire("M776 90V106", arrow=False), wire("M723 106H944", arrow=False),
@@ -1217,21 +1250,21 @@ def architecture():
         node(704, 284, "db", "orders-ddb"), node(762, 284, "sql", "aurora-pg"),
         node(820, 284, "cache", "redis"), node(878, 284, "bucket", "s3"),
         f'<text x="834" y="268" {note}>p99 42ms</text>',
-        # observability spine
-        wire("M690 143H664V327", dotted=True), wire("M682 233H664", arrow=False, dotted=True),
-        wire("M694 284H664", arrow=False, dotted=True),
-        f'<text x="668" y="300" {note} transform="rotate(-90 668 300)">otlp</text>',
-        wire("M674 338H711"), wire("M664 348V364H780V349", dashed=True),
-        node(664, 338, "otel", "otel"), node(722, 338, "prom", "prometheus"), node(780, 338, "tempo", "tempo"),
+        # observability column, right of the vpc
+        wire("M972 84H993", dotted=True), f'<text x="975" y="79" {note}>otlp</text>',
+        wire("M1004 94V129"), wire("M994 88H988V196H993", dashed=True),
+        node(1004, 84, "otel"), node(1004, 140, "prom"), node(1004, 196, "tempo"),
+        f'<text x="1019" y="87" {lab}>otel</text>', f'<text x="1019" y="143" {lab}>prometheus</text>',
+        f'<text x="1019" y="199" {lab}>tempo</text>',
         # trace waterfall: the sre duck gets the slow (orange) span from 182 ms down to 96 ms
-        f'<text class="slow mono" x="798" y="326" font-size="6.5" fill="{A["note"]}">trace 7f3a…e1 · 182 ms</text>',
-        f'<text class="fast mono" x="798" y="326" font-size="6.5" fill="{A["note"]}">trace 7f3a…e1 · 96 ms <tspan fill="{P["green"]}">✓</tspan></text>',
-        f'<rect class="root" x="798" y="332" width="135" height="3" rx="1.5" fill="#2c2c2c"/>',
-        f'<rect x="807" y="338" width="59" height="3" rx="1.5" fill="{P["blue"]}" opacity=".7"/>',
-        f'<rect class="crit" x="820" y="344" width="40" height="3" rx="1.5" fill="{P["orange"]}" opacity=".75"/>',
-        f'<g class="after"><rect x="863" y="350" width="52" height="3" rx="1.5" fill="#2c2c2c"/>'
-        f'<rect x="872" y="356" width="27" height="3" rx="1.5" fill="{P["purple"]}" opacity=".7"/></g>',
-        f'<rect class="scan" x="798" y="329" width="1" height="32" fill="{P["cyan"]}" opacity=".45"/>',
+        f'<text class="slow mono" x="984" y="232" font-size="6.5" fill="{A["note"]}">trace 7f3a…e1 · 182 ms</text>',
+        f'<text class="fast mono" x="984" y="232" font-size="6.5" fill="{A["note"]}">trace 7f3a…e1 · 96 ms <tspan fill="{P["green"]}">✓</tspan></text>',
+        f'<rect class="root" x="984" y="238" width="100" height="3" rx="1.5" fill="#2c2c2c"/>',
+        f'<rect x="991" y="244" width="44" height="3" rx="1.5" fill="{P["blue"]}" opacity=".7"/>',
+        f'<rect class="crit" x="1000" y="250" width="30" height="3" rx="1.5" fill="{P["orange"]}" opacity=".75"/>',
+        f'<g class="after"><rect x="1032" y="256" width="38" height="3" rx="1.5" fill="#2c2c2c"/>'
+        f'<rect x="1038" y="262" width="20" height="3" rx="1.5" fill="{P["purple"]}" opacity=".7"/></g>',
+        f'<rect class="scan" x="984" y="235" width="1" height="32" fill="{P["cyan"]}" opacity=".45"/>',
     ]
     # traces in flight: requests in blue/cyan, events in purple, the checkout path in orange
     parts += [
@@ -1239,8 +1272,8 @@ def architecture():
         trace("M776 80V106H723V138", P["blue"], 3.6, 2.2),
         trace("M808 170V191H704V226", P["purple"], 4.6, 1.2),
         trace("M704 233H816H836V222H870", P["orange"], 4.2, .8, r=1.8),
-        trace("M690 143H664V328", P["purple"], 3.4, .2, r=1.6),
-        trace("M682 233H664V328", P["blue"], 2.8, 1.8, r=1.6),
+        trace("M972 84H994", P["purple"], 1.6, .2, r=1.6),
+        trace("M1004 94V130", P["blue"], 2.2, 1.0, r=1.6),
     ]
     return "".join(parts)
 
@@ -1385,14 +1418,14 @@ def hero(user):
         ".cur{animation:blink 1.1s steps(1) infinite}@keyframes blink{50%{opacity:0}}"
         ".evt{opacity:0;animation:evt 7.2s linear infinite}"
         "@keyframes evt{0%{opacity:0;transform:none}6%{opacity:.85}90%{opacity:.85}100%{opacity:0;transform:translateX(272px)}}"
-        ".scan{animation:scan 7s ease-in-out infinite}@keyframes scan{0%,15%{transform:none}60%,100%{transform:translateX(135px)}}"
+        ".scan{animation:scan 7s ease-in-out infinite}@keyframes scan{0%,15%{transform:none}60%,100%{transform:translateX(100px)}}"
         "@keyframes bob{to{transform:translateY(-3px)}}"
     )
     badges_css, badges = badge_cluster(582, 166, size=88)
     css += badges_css
-    bd_css, bd_service, bd_duck = builder_scene()
-    pf_css, pf_duck = platform_scene()
-    sr_css, sr_duck = sre_scene()
+    bd_css, bd_service, bd_duck = (retime(x, 16.0, SLOTS["bd"]) for x in builder_scene())
+    pf_css, pf_duck = (retime(x, 18.0, SLOTS["pf"]) for x in platform_scene())
+    sr_css, sr_duck = (retime(x, 20.0, SLOTS["sr"]) for x in sre_scene())
     css += bd_css + pf_css + sr_css
     dot = '<tspan fill="#474747">·</tspan>'
     text = f"""<g class="in">
@@ -1420,7 +1453,7 @@ def hero(user):
              f'<title>{esc(TITLE)}</title><style>{css}</style><defs>{defs}</defs>{text}'
              f'<g class="in" style="animation-delay:.6s">{badges}</g></svg>')
     # right half: the blueprint with the lab ducks, as a dark card
-    dx, dy, dw, dh = 616, 10, 380, 392
+    dx, dy, dw, dh = 616, 10, 490, 318
     diagram = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{dw}" height="{dh}" viewBox="{dx} {dy} {dw} {dh}">'
                f'<title>Event-driven AWS blueprint</title><style>{css}</style><defs>{defs}'
                f'<clipPath id="card"><rect x="{dx}" y="{dy}" width="{dw}" height="{dh}" rx="14"/></clipPath></defs>'
@@ -1431,9 +1464,21 @@ def hero(user):
     light = about
     for dark_c, light_c in LIGHT_TEXT.items():
         light = light.replace(dark_c, light_c)
-    return {"about-dark": about, "about-light": light, "diagram": diagram}
+    diagram_light = diagram
+    for dark_c, light_c in LIGHT_DIAGRAM.items():
+        diagram_light = diagram_light.replace(dark_c, light_c)
+    return {"about-dark": about, "about-light": light, "diagram-dark": diagram, "diagram-light": diagram_light}
 
 
+# dark blueprint -> white blueprint with yellow ducks (light theme)
+LIGHT_DIAGRAM = {
+    P["bg"]: "#ffffff", "#121212": "#f5f6f8", "#242424": "#d0d7de", "#1e1e1e": "#e1e4e8", "#2b2b2b": "#c3c9d0",
+    "#111111": "#f6f8fa", "#2c2c2c": "#cfd5dc", "#5a5a5a": "#6e7781", "#434343": "#6e7781", "#353535": "#8c959f",
+    "#4b4b4b": "#6e7781", "#383838": "#9aa3ad", "#363636": "#b6bdc5", "#141414": "#f6f8fa", "#151515": "#d0d7de",
+    "#050505": "#24292f", "#000000": "#24292f", "#2f2f2f": "#8c959f", "#262626": "#c3c9d0", "#202020": "#57606a",
+    # duck feathers turn yellow; lab coats and suits stay light grey
+    "#f2f2f2": "#ffd84d", "#d9d9d9": "#f5c02e", "#b4b4b4": "#d99a1e",
+}
 # dark-theme text colours -> light-theme equivalents for the transparent "about" image
 LIGHT_TEXT = {"#ececec": "#1f2328", "#8c8c8c": "#57606a", "#cfcfcf": "#1f2328", "#bdbdbd": "#424a53",
               "#ffffff": "#1f2328", "#5c5c5c": "#8c959f", "#737373": "#6e7781", "#474747": "#afb8c1",
