@@ -19,6 +19,8 @@ Backend engineer and software architect specialized in **.NET** (C#, ASP.NET Cor
 
 I pick patterns for the problem, not the hype, weighing scalability, cost, maintainability and what the business actually needs, and I document the trade-offs so the next person inherits the reasoning.
 
+---
+
 **Stack** &nbsp;`C#` `.NET` `ASP.NET Core` `.NET Aspire` `EF Core` `Apache Kafka` `AWS` `Lambda` `DynamoDB` `Step Functions` `Terraform` `CDK` `Docker` `Kubernetes` `SQL Server` `PostgreSQL` `React` `Next.js` `Angular`
 
 **Architecture** &nbsp;`DDD` `Clean Architecture` `CQRS` `Event-Driven` `Microservices` `System Design` `SOLID` `Design Patterns`
