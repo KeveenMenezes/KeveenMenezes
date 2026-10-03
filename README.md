@@ -1,6 +1,6 @@
-<h3>.NET Specialist · Solution Architecture · Distributed Systems · AWS</h3>
+<a href="https://www.credly.com/users/keveen-menezes"><img width="30%" align="right" src="assets/duck-certs.gif" alt="Walking duck and AWS certification badges: Solutions Architect Professional, Solutions Architect Associate, Developer Associate"></a>
 
-<img width="30%" align="right" src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif" alt="Walking duck">
+<h3>.NET Specialist · Solution Architecture · Distributed Systems · AWS</h3>
 
 <p>
   <sub>5+ years building software · Belo Horizonte, Brazil</sub>
@@ -19,23 +19,13 @@ Backend engineer and software architect specialized in **.NET** (C#, ASP.NET Cor
 
 I pick patterns for the problem, not the hype, weighing scalability, cost, maintainability and what the business actually needs, and I document the trade-offs so the next person inherits the reasoning.
 
-<br clear="right">
-
----
-
 **Stack** &nbsp;`C#` `.NET` `ASP.NET Core` `.NET Aspire` `EF Core` `Apache Kafka` `AWS` `Lambda` `DynamoDB` `Step Functions` `Terraform` `CDK` `Docker` `Kubernetes` `SQL Server` `PostgreSQL` `React` `Next.js` `Angular`
 
 **Architecture** &nbsp;`DDD` `Clean Architecture` `CQRS` `Event-Driven` `Microservices` `System Design` `SOLID` `Design Patterns`
 
-### Certifications
-
-<p>
-  <img src="https://img.shields.io/badge/AWS%20Certified-Solutions%20Architect%20Professional-FF9900?style=flat-square&logo=amazonwebservices&logoColor=white" alt="AWS SAP">
-  <img src="https://img.shields.io/badge/AWS%20Certified-Solutions%20Architect%20Associate-FF9900?style=flat-square&logo=amazonwebservices&logoColor=white" alt="AWS SAA">
-  <img src="https://img.shields.io/badge/AWS%20Certified-Developer%20Associate-FF9900?style=flat-square&logo=amazonwebservices&logoColor=white" alt="AWS DVA">
-</p>
-
 B.S. in Information Systems — PUC Minas (2023)
+
+<br clear="right">
 
 ### On GitHub
 
