@@ -1,6 +1,6 @@
-<img width="30%" align="right" src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif" alt="Walking duck">
+<h3>.NET Specialist · Solution Architecture · Distributed Systems · AWS</h3>
 
-<h1>.NET Specialist · Solution Architecture · Distributed Systems · AWS</h1>
+<img width="30%" align="right" src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif" alt="Walking duck">
 
 <p>
   <sub>5+ years building software · Belo Horizonte, Brazil</sub>
