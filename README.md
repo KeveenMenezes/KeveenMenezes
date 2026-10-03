@@ -25,8 +25,6 @@ I pick patterns for the problem, not the hype, weighing scalability, cost, maint
 
 B.S. in Information Systems — PUC Minas (2023)
 
-<br clear="right">
-
 ### On GitHub
 
 <picture>
