@@ -1,9 +1,8 @@
 <img width="30%" align="right" src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif" alt="Walking duck">
 
-<h1>Keveen Menezes</h1>
+<h1>.NET Specialist · Solution Architecture · Distributed Systems · AWS</h1>
 
 <p>
-  <b>.NET Specialist</b> · Distributed Systems · AWS<br>
   <sub>5+ years building software · Belo Horizonte, Brazil</sub>
 </p>
 
