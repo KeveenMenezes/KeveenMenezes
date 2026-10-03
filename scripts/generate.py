@@ -1388,7 +1388,7 @@ def hero(user):
         ".scan{animation:scan 7s ease-in-out infinite}@keyframes scan{0%,15%{transform:none}60%,100%{transform:translateX(135px)}}"
         "@keyframes bob{to{transform:translateY(-3px)}}"
     )
-    badges_css, badges = badge_cluster(548, 166, size=76)
+    badges_css, badges = badge_cluster(683, 150, size=76)
     css += badges_css
     bd_css, bd_service, bd_duck = builder_scene()
     pf_css, pf_duck = platform_scene()
@@ -1415,7 +1415,7 @@ def hero(user):
 <marker id="arr" viewBox="0 0 6 6" refX="5.5" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L6 3L0 6z" fill="#383838"/></marker>
 <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#121212"/></pattern>"""
     # left half: the words, on a transparent background (one file per GitHub theme)
-    ax, ay, aw, ah = 46, 44, 576, 306
+    ax, ay, aw, ah = 46, 44, 708, 306
     about = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{aw}" height="{ah}" viewBox="{ax} {ay} {aw} {ah}">'
              f'<title>{esc(TITLE)}</title><style>{css}</style><defs>{defs}</defs>{text}'
              f'<g class="in" style="animation-delay:.6s">{badges}</g></svg>')
