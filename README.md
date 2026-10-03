@@ -1,10 +1,6 @@
 <a href="https://www.credly.com/users/keveen-menezes"><img width="30%" align="right" src="assets/duck-aws.gif" alt="Walking duck and AWS certification badges: Solutions Architect Professional, Solutions Architect Associate, Developer Associate"></a>
 
-<h3>.NET Specialist · Solution Architecture · Distributed Systems · AWS</h3>
-
-<p>
-  <sub>5+ years building software · Belo Horizonte, Brazil</sub>
-</p>
+<h3>.NET Specialist · Solution Architecture · Distributed Systems · AWS<br><sub>5+ years building software · Belo Horizonte, Brazil</sub></h3>
 
 Backend engineer and software architect specialized in **.NET** (C#, ASP.NET Core, .NET Aspire), designing event-driven, distributed systems on **AWS**.
 
