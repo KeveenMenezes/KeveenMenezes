@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ["scripts/**", ".github/workflows/profile-svgs.yml"]
+    paths: ["scripts/**", "assets/**", ".github/workflows/profile-svgs.yml"]
 
 permissions:
   contents: write
