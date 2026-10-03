@@ -1409,24 +1409,35 @@ def hero(user):
 <text x="56" y="320" font-size="12" fill="{P['comment']}" class="mono">// weighing scalability, cost, maintainability and business needs</text>
 <text x="56" y="338" font-size="12" fill="{P['comment']}" class="mono">// trade-offs documented, so the next person inherits the reasoning</text>
 </g>"""
-    body = f"""<defs>
-<pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#121212"/></pattern>
-<linearGradient id="fade" x1="0" x2="1"><stop offset=".54" stop-color="#fff" stop-opacity="0"/><stop offset=".72" stop-color="#fff" stop-opacity="1"/></linearGradient>
-<mask id="right"><rect width="{width}" height="{height}" fill="url(#fade)"/></mask>
-<linearGradient id="quotebar" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="{P['blue']}"/><stop offset="1" stop-color="{P['purple']}"/></linearGradient>
+    defs = f"""<linearGradient id="quotebar" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="{P['blue']}"/><stop offset="1" stop-color="{P['purple']}"/></linearGradient>
 <linearGradient id="beamfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="{P['cyan']}" stop-opacity="0"/><stop offset=".6" stop-color="{P['cyan']}" stop-opacity=".45"/><stop offset="1" stop-color="{P['cyan']}" stop-opacity=".15"/></linearGradient>
 <linearGradient id="shine" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
 <marker id="arr" viewBox="0 0 6 6" refX="5.5" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L6 3L0 6z" fill="#383838"/></marker>
-</defs>
-<g mask="url(#right)">
-<rect width="{width}" height="{height}" fill="url(#grid)"/>
-{architecture()}
-{bd_service}
-</g>
-{pf_duck}{bd_duck}{sr_duck}
-{text}
-<g class="in" style="animation-delay:.6s">{badges}</g>"""
-    return svg(width, height, css, body, radius=16, title=TITLE)
+<pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#121212"/></pattern>"""
+    # left half: the words, on a transparent background (one file per GitHub theme)
+    ax, ay, aw, ah = 46, 44, 576, 306
+    about = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{aw}" height="{ah}" viewBox="{ax} {ay} {aw} {ah}">'
+             f'<title>{esc(TITLE)}</title><style>{css}</style><defs>{defs}</defs>{text}'
+             f'<g class="in" style="animation-delay:.6s">{badges}</g></svg>')
+    # right half: the blueprint with the lab ducks, as a dark card
+    dx, dy, dw, dh = 616, 10, 380, 392
+    diagram = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{dw}" height="{dh}" viewBox="{dx} {dy} {dw} {dh}">'
+               f'<title>Event-driven AWS blueprint</title><style>{css}</style><defs>{defs}'
+               f'<clipPath id="card"><rect x="{dx}" y="{dy}" width="{dw}" height="{dh}" rx="14"/></clipPath></defs>'
+               f'<g clip-path="url(#card)"><rect x="{dx}" y="{dy}" width="{dw}" height="{dh}" fill="{P["bg"]}"/>'
+               f'<rect x="{dx}" y="{dy}" width="{dw}" height="{dh}" fill="url(#grid)"/>{architecture()}{bd_service}'
+               f'{pf_duck}{bd_duck}{sr_duck}</g>'
+               f'<rect x="{dx + .5}" y="{dy + .5}" width="{dw - 1}" height="{dh - 1}" rx="13.5" fill="none" stroke="{P["border"]}"/></svg>')
+    light = about
+    for dark_c, light_c in LIGHT_TEXT.items():
+        light = light.replace(dark_c, light_c)
+    return {"about-dark": about, "about-light": light, "diagram": diagram}
+
+
+# dark-theme text colours -> light-theme equivalents for the transparent "about" image
+LIGHT_TEXT = {"#ececec": "#1f2328", "#8c8c8c": "#57606a", "#cfcfcf": "#1f2328", "#bdbdbd": "#424a53",
+              "#ffffff": "#1f2328", "#5c5c5c": "#8c959f", "#737373": "#6e7781", "#474747": "#afb8c1",
+              "#4a4a4a": "#b8bec5", "#e0e0e0": "#24292f", "#888888": "#6e7781", "#23d8ea": "#0e8fa3"}
 
 
 # ---------------------------------------------------------------- stats card
@@ -1665,9 +1676,11 @@ def activity_card(user):
 def main():
     user = fetch()
     os.makedirs(OUT, exist_ok=True)
-    for name, fn in (("hero", hero), ("stats", stats_card), ("activity", activity_card)):
+    files = hero(user)
+    files.update({"stats": stats_card(user), "activity": activity_card(user)})
+    for name, content in files.items():
         with open(os.path.join(OUT, f"{name}.svg"), "w") as f:
-            f.write(fn(user))
+            f.write(content)
     print(f"wrote SVGs to {OUT}/")
 
 
