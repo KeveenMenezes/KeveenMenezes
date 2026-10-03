@@ -1,13 +1,15 @@
-<img align="right" width="190" src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif" alt="Walking duck">
+<p align="center">
+  <img width="150" src="https://media.giphy.com/media/3HbtyiV6otnLf4WHSN/giphy.gif" alt="Walking duck">
+</p>
 
-<h1>Keveen Menezes</h1>
+<h1 align="center">Keveen Menezes</h1>
 
-<p>
+<p align="center">
   <b>.NET Specialist</b> · Distributed Systems · AWS<br>
   <sub>5+ years building software · Belo Horizonte, Brazil</sub>
 </p>
 
-<p>
+<p align="center">
   <img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET">
   <img src="https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white" alt="C#">
   <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white" alt="AWS">
@@ -16,17 +18,11 @@
   <a href="https://github.com/KeveenMenezes?tab=followers"><img src="https://img.shields.io/github/followers/KeveenMenezes?style=flat-square&logo=github&label=Followers&color=24292f" alt="Followers"></a>
 </p>
 
-<br clear="right">
-
 ---
 
-Backend engineer and software architect specialized in the **.NET platform** — C#, ASP.NET Core and .NET Aspire — designing event-driven, distributed systems on **AWS**.
+Backend engineer and software architect specialized in **.NET** (C#, ASP.NET Core, .NET Aspire), designing event-driven, distributed systems on **AWS**.
 
-I work from the decision *before* the code. Choosing a pattern means understanding the problem it solves: Kafka with one message per second isn't a distributed architecture, it's just Kafka. Every call weighs the same four things — scalability, cost, maintainability, and what the business actually needs.
-
-On AWS I design cloud-native instead of lift-and-shift: serverless where it earns its place, managed services over self-hosted, infrastructure as code, and observability built in from day one. Cloud cost is usually an architecture problem wearing a billing disguise, and that's where I like to work.
-
-I'm the engineer who asks *"how does this keep working when volume grows?"* before the first line is written — and who documents the trade-off so the next person inherits the reasoning, not just the code.
+I pick patterns for the problem, not the hype, weighing scalability, cost, maintainability and what the business actually needs, and I document the trade-offs so the next person inherits the reasoning.
 
 **Stack** &nbsp;`C#` `.NET` `ASP.NET Core` `.NET Aspire` `EF Core` `Apache Kafka` `AWS` `Lambda` `DynamoDB` `Step Functions` `Terraform` `CDK` `Docker` `Kubernetes` `SQL Server` `PostgreSQL` `React` `Next.js` `Angular`
 
