@@ -989,16 +989,14 @@ def duck_timer(x, y):
     gap = SCHEDULE / len(SLOTS)  # 60 s between ducks
     css = (".dg{opacity:0;animation-timing-function:steps(1);animation-iteration-count:infinite}"
            "@keyframes ones{0%{opacity:1}10%,100%{opacity:0}}@keyframes tens{0%{opacity:1}16.667%,100%{opacity:0}}")
-    fs, cw = 10, 6.0  # font size, mono advance
-    style = f'font-size="{fs}" fill="#a8a8a8" class="mono"'
+    fs, cw = 8, 4.8  # same type as the blueprint header
+    style = f'font-size="{fs}" fill="#4b4b4b" class="mono"'
     digit = f'font-size="{fs}" fill="{P["cyan"]}"'
-    label = "next duck in 0:"
-    w = 22 + (len(label) + 2) * cw
-    out = [f'<rect x="{x}" y="{y - 11}" width="{w:.0f}" height="15" rx="7.5" fill="#151515" stroke="#2e2e2e"/>',
-           f'<circle cx="{x + 10}" cy="{y - 3.5}" r="4" fill="none" stroke="{P["cyan"]}" stroke-width="1.1"/>'
-           f'<path d="M{x + 10} {y - 5.8}V{y - 3.5}H{x + 11.8}" fill="none" stroke="{P["cyan"]}" stroke-width="1.1"/>',
-           f'<text x="{x + 18}" y="{y}" {style}>{label}</text>']
-    dx = x + 18 + len(label) * cw
+    label = "next feature: 0:"
+    out = [f'<circle cx="{x + 3.5}" cy="{y - 2.8}" r="3.2" fill="none" stroke="{P["cyan"]}"/>'
+           f'<path d="M{x + 3.5} {y - 4.6}V{y - 2.8}H{x + 5}" fill="none" stroke="{P["cyan"]}"/>',
+           f'<text x="{x + 10}" y="{y}" {style}>{label}</text>']
+    dx = x + 10 + len(label) * cw
     for d in range(6):  # tens: 5..0, ten seconds each
         out.append(f'<text class="dg mono" style="animation-name:tens;animation-duration:{gap:g}s;animation-delay:{(5 - d) * 10}s" '
                    f'x="{dx}" y="{y}" {digit}>{d}</text>')
@@ -1448,7 +1446,7 @@ def hero(user):
     )
     badges_css, badges = badge_cluster(582, 166, size=88)
     css += badges_css
-    timer_css, timer = duck_timer(784, 39)
+    timer_css, timer = duck_timer(800, 37)
     css += timer_css
     bd_css, bd_service, bd_duck = (retime(x, 16.0, SLOTS["bd"]) for x in builder_scene())
     pf_css, pf_duck = (retime(x, 18.0, SLOTS["pf"]) for x in platform_scene())
