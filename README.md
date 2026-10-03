@@ -6,13 +6,6 @@
   <sub>5+ years building software · Belo Horizonte, Brazil</sub>
 </p>
 
-<p>
-  <img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET">
-  <img src="https://img.shields.io/badge/C%23-7355DD?style=flat-square&logo=csharp&logoColor=white" alt="C#">
-  <img src="https://img.shields.io/badge/AWS-3178C6?style=flat-square&logo=amazonwebservices&logoColor=white" alt="AWS">
-  <img src="https://img.shields.io/badge/Apache%20Kafka-231F20?style=flat-square&logo=apachekafka&logoColor=white" alt="Kafka">
-</p>
-
 Backend engineer and software architect specialized in **.NET** (C#, ASP.NET Core, .NET Aspire), designing event-driven, distributed systems on **AWS**.
 
 I pick patterns for the problem, not the hype, weighing scalability, cost, maintainability and what the business actually needs, and I document the trade-offs so the next person inherits the reasoning.
