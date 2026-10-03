@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Generates the animated SVGs used by the profile README.
 
-- duck-{dark,light}.svg  : a pixel duck waddles across the contribution graph,
-                           revealing each week's squares as it passes.
+- activity-{dark,light}.svg : contributions per month (a pixel duck hops across
+                           the bars), contribution mix and busiest weekdays.
 - stats-{dark,light}.svg : animated activity card (contributions, commits, PRs,
                            streaks, years on GitHub and top languages).
 
@@ -34,6 +34,7 @@ query($login: String!) {
       restrictedContributionsCount
       totalPullRequestContributions
       totalPullRequestReviewContributions
+      totalIssueContributions
       contributionCalendar {
         totalContributions
         weeks { contributionDays { contributionCount contributionLevel date } }
@@ -55,7 +56,6 @@ THEMES = {
         "levels": ["#ebedf0", "#bcd0f5", "#6f9be6", "#5568d6", "#5a3fc0"],
     },
 }
-LEVEL = {"NONE": 0, "FIRST_QUARTILE": 1, "SECOND_QUARTILE": 2, "THIRD_QUARTILE": 3, "FOURTH_QUARTILE": 4}
 FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif"
 
 
@@ -126,84 +126,139 @@ def duck_svg(px):
     )
 
 
-# ------------------------------------------------------------ duck + graph
-def duck_walk(user, theme):
+# ------------------------------------------------------------ activity card
+MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
+WEEKDAYS = "Mon Tue Wed Thu Fri Sat Sun".split()
+
+
+def activity_card(user, theme):
     t = THEMES[theme]
-    cal = user["contributionsCollection"]["contributionCalendar"]
-    weeks = cal["weeks"]
-    cell, gap = 11, 3
-    pitch = cell + gap
-    left, top = 24, 46
-    grid_w = len(weeks) * pitch - gap
-    width = left * 2 + grid_w
-    height = top + 7 * pitch + 44
+    cc = user["contributionsCollection"]
+    days = [d for w in cc["contributionCalendar"]["weeks"] for d in w["contributionDays"]]
 
-    cycle = 14.0          # seconds per loop
-    walk_end = 0.62       # fraction of the cycle the duck spends walking
-    hold_end = 0.90       # graph stays visible until here, then fades
-    px = 3
-    duck_w = 16 * px
-    duck_y = top + (7 * pitch - gap) / 2 - 15 * px / 2 - 2
-    start_x, end_x = -duck_w - 10, width + 10
+    monthly, weekday = {}, [0] * 7
+    for d in days:
+        monthly[d["date"][:7]] = monthly.get(d["date"][:7], 0) + d["contributionCount"]
+        weekday[datetime.fromisoformat(d["date"]).weekday()] += d["contributionCount"]
+    months = sorted(monthly.items())[-12:]
 
-    def pct(f):
-        return round(f * 100, 2)
+    mix = [
+        ("Commits", cc["totalCommitContributions"] + cc["restrictedContributionsCount"], t["levels"][4]),
+        ("Pull requests", cc["totalPullRequestContributions"], t["accent"][1]),
+        ("Code reviews", cc["totalPullRequestReviewContributions"], t["levels"][3]),
+        ("Issues", cc["totalIssueContributions"], t["levels"][2]),
+    ]
 
+    width, height = 820, 300
+    cycle, px = 13.0, 2
     style = [
         f"text{{font-family:{FONT};fill:{t['text']}}}",
         f".muted{{fill:{t['muted']}}}",
-        f"#duck{{animation:walk {cycle}s linear infinite}}",
-        f"@keyframes walk{{0%{{transform:translate({start_x}px,{duck_y}px)}}"
-        f"{pct(walk_end)}%{{transform:translate({end_x}px,{duck_y}px)}}"
-        f"100%{{transform:translate({end_x}px,{duck_y}px)}}}}",
-        ".bob{animation:bob .36s ease-in-out infinite alternate}",
-        "@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-3px)}}",
-        ".foot-a{animation:step .36s steps(1) infinite}",
-        ".foot-b{animation:step .36s steps(1) infinite reverse}",
-        "@keyframes step{0%{transform:translateY(-3px)}50%{transform:translateY(0)}}",
-        ".c{transform-box:fill-box;transform-origin:center}",
+        ".gy{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);"
+        "animation:gy .9s cubic-bezier(.2,.8,.2,1) forwards}",
+        "@keyframes gy{to{transform:scaleY(1)}}",
+        ".gx{transform-box:fill-box;transform-origin:left;transform:scaleX(0);"
+        "animation:gx .9s cubic-bezier(.2,.8,.2,1) forwards}",
+        "@keyframes gx{to{transform:scaleX(1)}}",
+        ".in{opacity:0;animation:in .6s ease-out forwards}",
+        "@keyframes in{to{opacity:1}}",
+        ".bob{animation:bob .3s ease-in-out infinite alternate}",
+        "@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-2px)}}",
+        ".foot-a{animation:step .3s steps(1) infinite}",
+        ".foot-b{animation:step .3s steps(1) infinite reverse}",
+        "@keyframes step{0%{transform:translateY(-2px)}50%{transform:translateY(0)}}",
+    ]
+    parts = [
+        f'<text x="24" y="32" font-size="15" font-weight="600">Contributions per month</text>',
+        f'<text x="560" y="32" font-size="15" font-weight="600">Contribution mix</text>',
+        f'<text x="560" y="198" font-size="15" font-weight="600">Busiest weekdays</text>',
     ]
 
-    cells = []
-    for i, week in enumerate(weeks):
-        # moment the duck's beak passes over this column
-        beak_x = left + i * pitch + cell / 2
-        reveal = (beak_x - start_x - duck_w + 6) / (end_x - start_x) * walk_end
-        reveal = max(0.0, reveal)
-        a, b = pct(reveal), pct(min(reveal + 0.02, hold_end))
-        style.append(
-            f"@keyframes w{i}{{0%,{a}%{{opacity:0;transform:scale(.2)}}"
-            f"{b}%{{opacity:1;transform:scale(1.25)}}"
-            f"{pct(min(reveal + 0.04, hold_end))}%,{pct(hold_end)}%{{opacity:1;transform:scale(1)}}"
-            f"{pct(hold_end + 0.05)}%,100%{{opacity:0;transform:scale(1)}}}}"
-            f".w{i}{{animation:w{i} {cycle}s ease-out infinite}}"
+    # monthly bars; the duck hops from the top of one bar to the next
+    left, chart_w, base, chart_h = 24, 500, 252, 170
+    pitch = chart_w / len(months)
+    bar_w = pitch - 14
+    peak = max(v for _, v in months) or 1
+    tops = []
+    for i, (ym, v) in enumerate(months):
+        h = max(2, v / peak * chart_h)
+        x = left + i * pitch + 7
+        tops.append((x + bar_w / 2, base - h))
+        parts.append(
+            f'<rect class="gy" style="animation-delay:{i * 0.05:.2f}s" x="{x:.1f}" y="{base - h:.1f}" width="{bar_w:.1f}" '
+            f'height="{h:.1f}" rx="4" fill="url(#bar)"><title>{v} contributions</title></rect>'
+            f'<text x="{x + bar_w / 2:.1f}" y="{base + 18}" font-size="11" text-anchor="middle" class="muted">'
+            f'{MONTHS[int(ym[5:]) - 1]}</text>'
         )
-        for day in week["contributionDays"]:
-            d = datetime.fromisoformat(day["date"]).weekday()
-            row = (d + 1) % 7  # GitHub starts the week on Sunday
-            x, y = left + i * pitch, top + row * pitch
-            cells.append(f'<rect x="{x}" y="{y}" width="{cell}" height="{cell}" rx="2" fill="{t["levels"][0]}"/>')
-            lvl = LEVEL.get(day["contributionLevel"], 0)
-            if lvl:
-                cells.append(
-                    f'<rect class="c w{i}" x="{x}" y="{y}" width="{cell}" height="{cell}" rx="2" '
-                    f'fill="{t["levels"][lvl]}"><title>{day["contributionCount"]} on {day["date"]}</title></rect>'
-                )
-
-    total = cal["totalContributions"]
-    legend_x = width - left - 5 * pitch - 70
-    legend = "".join(
-        f'<rect x="{legend_x + 34 + k * pitch}" y="{height - 26}" width="{cell}" height="{cell}" rx="2" fill="{c}"/>'
-        for k, c in enumerate(t["levels"])
+    best_ym, best_v = max(months, key=lambda kv: kv[1])
+    parts.append(
+        f'<text x="{left + chart_w}" y="32" font-size="12" text-anchor="end" class="muted">'
+        f'best month: {MONTHS[int(best_ym[5:]) - 1]} · {best_v}</text>'
     )
+
+    duck_w, duck_h = 14 * px, 15 * px
+    seg = 0.9 / len(tops)  # last 10% of the cycle the duck fades out and resets
+    frames = []
+    for i, (cx, top) in enumerate(tops):
+        x, y = cx - duck_w / 2, top - duck_h
+        p = i * seg * 100
+        frames.append(f"{p:.2f}%{{transform:translate({x:.1f}px,{y:.1f}px);opacity:1}}")
+        frames.append(f"{p + seg * 50:.2f}%{{transform:translate({x:.1f}px,{y:.1f}px);opacity:1}}")
+        if i + 1 < len(tops):
+            nx, ny = tops[i + 1][0] - duck_w / 2, tops[i + 1][1] - duck_h
+            hop = min(y, ny) - 22
+            frames.append(f"{p + seg * 75:.2f}%{{transform:translate({(x + nx) / 2:.1f}px,{hop:.1f}px);opacity:1}}")
+    lx, ly = tops[-1][0] - duck_w / 2, tops[-1][1] - duck_h
+    frames.append(f"95%{{transform:translate({lx:.1f}px,{ly:.1f}px);opacity:0}}")
+    frames.append(f"100%{{transform:translate({tops[0][0] - duck_w / 2:.1f}px,{tops[0][1] - duck_h:.1f}px);opacity:0}}")
+    style.append(f"#duck{{animation:hop {cycle}s ease-in-out infinite}}@keyframes hop{{{''.join(frames)}}}")
+
+    # contribution mix: donut + legend
+    total = sum(v for _, v, _ in mix) or 1
+    cx, cy, r = 610, 108, 44
+    circ = 2 * 3.14159265 * r
+    parts.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{t["levels"][0]}" stroke-width="14"/>')
+    offset = 0.0
+    for k, (name, v, color) in enumerate(mix):
+        length = v / total * circ
+        if length:
+            parts.append(
+                f'<circle class="in" style="animation-delay:{0.2 + k * 0.15:.2f}s" cx="{cx}" cy="{cy}" r="{r}" fill="none" '
+                f'stroke="{color}" stroke-width="14" stroke-dasharray="{max(length - 2, 0.5):.1f} {circ:.1f}" '
+                f'stroke-dashoffset="{-offset:.1f}" transform="rotate(-90 {cx} {cy})"/>'
+            )
+        offset += length
+        ty = 70 + k * 26
+        parts.append(
+            f'<g class="in" style="animation-delay:{0.2 + k * 0.15:.2f}s">'
+            f'<rect x="676" y="{ty - 9}" width="10" height="10" rx="2" fill="{color}"/>'
+            f'<text x="692" y="{ty}" font-size="12">{name}</text>'
+            f'<text x="796" y="{ty}" font-size="12" text-anchor="end" class="muted">{v / total * 100:.0f}%</text></g>'
+        )
+    parts.append(f'<text x="{cx}" y="{cy + 5}" font-size="15" font-weight="700" text-anchor="middle">{total}</text>')
+
+    # weekdays: horizontal bars
+    wd_peak = max(weekday) or 1
+    for k, name in enumerate(WEEKDAYS):
+        y = 212 + k * 11.5
+        w = weekday[k] / wd_peak * 196
+        parts.append(
+            f'<text x="560" y="{y + 7.5}" font-size="10" class="muted">{name}</text>'
+            f'<rect x="590" y="{y}" width="196" height="8" rx="4" fill="{t["levels"][0]}"/>'
+            f'<rect class="gx" style="animation-delay:{0.3 + k * 0.06:.2f}s" x="590" y="{y}" width="{max(w, 1):.1f}" '
+            f'height="8" rx="4" fill="url(#barx)"><title>{weekday[k]} contributions</title></rect>'
+        )
+
+    a0, a1 = t["accent"]
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
+<defs>
+<linearGradient id="bar" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="{a0}"/><stop offset="1" stop-color="{a1}"/></linearGradient>
+<linearGradient id="barx" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="{a1}"/><stop offset="1" stop-color="{a0}"/></linearGradient>
+</defs>
 <style>{''.join(style)}</style>
 <rect x=".5" y=".5" width="{width - 1}" height="{height - 1}" rx="10" fill="{t['bg']}" stroke="{t['border']}"/>
-<text x="{left}" y="30" font-size="15" font-weight="600">{total:,} contributions in the last year</text>
-<text x="{width - left}" y="30" font-size="12" text-anchor="end" class="muted">the duck delivers every commit 🦆</text>
-{''.join(cells)}
-<text x="{legend_x}" y="{height - 16.5}" font-size="11" class="muted">Less</text>{legend}
-<text x="{legend_x + 34 + 5 * pitch + 4}" y="{height - 16.5}" font-size="11" class="muted">More</text>
+<line x1="540" y1="20" x2="540" y2="{height - 20}" stroke="{t['border']}"/>
+{''.join(parts)}
 <g id="duck">{duck_svg(px)}</g>
 </svg>"""
 
@@ -296,7 +351,7 @@ def main():
     user = fetch()
     os.makedirs(OUT, exist_ok=True)
     for theme in THEMES:
-        for name, fn in (("duck", duck_walk), ("stats", stats_card)):
+        for name, fn in (("activity", activity_card), ("stats", stats_card)):
             with open(os.path.join(OUT, f"{name}-{theme}.svg"), "w") as f:
                 f.write(fn(user, theme))
     print(f"wrote SVGs to {OUT}/")
