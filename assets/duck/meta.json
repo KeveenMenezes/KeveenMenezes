@@ -1,13 +1,5 @@
 {
-  "frames": 48,
+  "frames": 12,
   "frame_ms": 50,
-  "nozzle": [
-    41.42,
-    83.17
-  ],
-  "exhaust_dir": [
-    -0.827,
-    0.562
-  ],
-  "canvas": 128
+  "aspect": 0.6732
 }

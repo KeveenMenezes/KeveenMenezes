@@ -3,7 +3,7 @@
 
 - activity-{dark,light}.svg : contributions per month (a pixel duck hops across
                            the bars), contribution mix and busiest weekdays.
-- hero-{dark,light}.svg  : see-through pixel-art space header with the flying astronaut duck and AWS badges.
+- hero-{dark,light}.svg  : see-through space header: the astronaut duck walking on a moon, plus AWS badges.
 - stats-{dark,light}.svg : animated activity card (contributions, commits, PRs,
                            streaks, years on GitHub and top languages).
 
@@ -79,8 +79,8 @@ def fetch():
 
 
 # ---------------------------------------------------------------- duck frames
-# The flying astronaut duck is drawn by scripts/duck_frames.py (needs Pillow) into
-# assets/duck/{big,small}; here we only embed those PNGs and flip through them with CSS.
+# The astronaut duck is built by scripts/astronaut_duck.py (needs Pillow) into
+# assets/duck/{walk,walk_small}; here we only embed those PNGs and flip through them with CSS.
 ASSETS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets")
 
 
@@ -89,18 +89,19 @@ def duck_meta():
         return json.load(f)
 
 
-def duck_frames(size_dir, x, y, size, cls):
+def duck_frames(size_dir, x, y, height, cls):
     """Returns (css, svg) showing one frame at a time."""
     meta = duck_meta()
     n, ms = meta["frames"], meta["frame_ms"]
-    css = (f".{cls}{{opacity:0;image-rendering:pixelated;animation:{cls} {n * ms}ms steps(1) infinite}}"
+    width = round(height * meta["aspect"], 1)
+    css = (f".{cls}{{opacity:0;animation:{cls} {n * ms}ms steps(1) infinite}}"
            f"@keyframes {cls}{{0%{{opacity:1}}{100 / n:.3f}%,100%{{opacity:0}}}}")
     images = []
     for i in range(n):
         with open(os.path.join(ASSETS, "duck", size_dir, f"{i:02d}.png"), "rb") as f:
             data = base64.b64encode(f.read()).decode()
         images.append(f'<image class="{cls}" style="animation-delay:{i * ms}ms" href="data:image/png;base64,{data}" '
-                      f'x="{x}" y="{y}" width="{size}" height="{size}"/>')
+                      f'x="{x}" y="{y}" width="{width}" height="{height}"/>')
     return css, "".join(images)
 
 
@@ -147,7 +148,7 @@ def activity_card(user, theme):
         f'<text x="560" y="198" font-size="15" font-weight="600">Busiest weekdays</text>',
     ]
 
-    # monthly bars; the duck flies from the top of one bar to the next
+    # monthly bars; the duck hops from the top of one bar to the next
     left, chart_w, base, chart_h = 24, 500, 252, 170
     pitch = chart_w / len(months)
     bar_w = pitch - 14
@@ -169,9 +170,10 @@ def activity_card(user, theme):
         f'best month: {MONTHS[int(best_ym[5:]) - 1]} · {best_v}</text>'
     )
 
-    duck_css, duck_svg = duck_frames("small", 0, 0, 64, "fs")
+    duck_h = 64
+    duck_css, duck_svg = duck_frames("walk_small", 0, 0, duck_h, "fs")
     style.append(duck_css)
-    anchor_x, anchor_y = 38, 50  # body centre / feet on the 64px canvas
+    anchor_x, anchor_y = duck_h * duck_meta()["aspect"] / 2, duck_h * 0.95  # planted foot, centred
     seg = 0.9 / len(tops)  # last 10% of the cycle the duck fades out and resets
     frames = []
     for i, (cx, top) in enumerate(tops):
@@ -313,7 +315,6 @@ def galaxy(width, height, rng, t):
             put(cx + math.cos(a) * d * rx, cy + math.sin(a) * d * ry,
                 rng.choice(t["core"]) if d < .25 else accent_or(rng.choice(t["arms"][:3]), .06))
 
-    spiral(860, 120, 90, .5, 700)
     elliptical(470, 338, 26, 12, 160)
     spiral(640, 330, 30, .45, 160, turns=2.4)
     elliptical(960, 330, 12, 7, 60)
@@ -340,36 +341,49 @@ def galaxy(width, height, rng, t):
     return rects + "".join(stars)
 
 
-DUCK_X, DUCK_Y, DUCK_SIZE = 716, 16, 256  # 128px canvas shown at 2x
+INK = "#04020a"  # same heavy outline as the duck drawing
+MOON = (880, 440, 168)  # centre x, centre y, radius
+DUCK_H = 250
 
 
-def exhaust(theme, rng):
-    """Sparks and smoke puffs streaming out of the jetpack, animated in CSS so they move smoothly."""
-    meta = duck_meta()
-    k = DUCK_SIZE / meta["canvas"]
-    nx, ny = DUCK_X + meta["nozzle"][0] * k, DUCK_Y + meta["nozzle"][1] * k
-    dx, dy = meta["exhaust_dir"]
-    lift = math.radians(-12)  # let the trail drift a bit flatter than the nozzle
-    dx, dy = dx * math.cos(lift) - dy * math.sin(lift), dx * math.sin(lift) + dy * math.cos(lift)
-    px, py = -dy, dx
-    sparks = {"dark": ["#ffffff", "#ffd23f", "#ff8a1f", "#ffb347"],
-              "light": ["#ff8a1f", "#ffb347", "#f05a28", "#7355dd"]}[theme]
-    smoke, smoke_alpha = {"dark": ("#c9c0ff", .3), "light": ("#c4bdf0", .45)}[theme]
-    css, els = [], []
-    for j in range(24):
-        puff = j % 3 == 0
-        dur = rng.uniform(1.2, 1.9) if puff else rng.uniform(.55, 1.05)
-        dist = rng.uniform(55, 95) if puff else rng.uniform(35, 75)
-        side = rng.gauss(0, 9 if puff else 6)
-        size = 8 if puff else rng.choice([3, 4, 4, 5])
-        sx, sy = nx + dx * 34, ny + dy * 34
-        tx, ty = dx * dist + px * side, dy * dist + py * side + rng.uniform(-4, 6)
-        css.append(f"@keyframes x{j}{{0%{{transform:translate(0,0) scale(1);opacity:{smoke_alpha if puff else 1}}}"
-                   f"100%{{transform:translate({tx:.1f}px,{ty:.1f}px) scale({2.0 if puff else .3});opacity:0}}}}")
-        els.append(f'<rect x="{sx - size / 2:.1f}" y="{sy - size / 2:.1f}" width="{size}" height="{size}" '
-                   f'fill="{smoke if puff else rng.choice(sparks)}" style="transform-box:fill-box;transform-origin:center;'
-                   f'animation:x{j} {dur:.2f}s ease-out {-rng.uniform(0, dur):.2f}s infinite"/>')
-    return "".join(css), "".join(els)
+def moon(theme):
+    """A small moon the duck walks on; it turns under its feet."""
+    import random
+    cx, cy, r = MOON
+    light, mid, dark = {"dark": ("#d6d0f2", "#b3aadf", "#8f86c2"), "light": ("#ece9f8", "#d2cbee", "#b6addf")}[theme]
+    rng = random.Random(3)
+    craters = []
+    for k in range(11):
+        a = 2 * math.pi * k / 11 + rng.uniform(-.2, .2)
+        d = rng.uniform(.5, .9) * r
+        x, y, rr = cx + math.cos(a) * d, cy + math.sin(a) * d, rng.uniform(9, 19)
+        rot = math.degrees(a) + 90
+        craters.append(
+            f'<g transform="rotate({rot:.0f} {x:.0f} {y:.0f})">'
+            f'<ellipse cx="{x:.0f}" cy="{y:.0f}" rx="{rr:.0f}" ry="{rr * .55:.0f}" fill="{dark}" stroke="{INK}" stroke-width="3"/>'
+            f'<ellipse cx="{x:.0f}" cy="{y + rr * .12:.0f}" rx="{rr * .7:.0f}" ry="{rr * .3:.0f}" fill="{mid}"/></g>'
+        )
+    a = math.radians(-150)  # little flag planted on the surface
+    fx, fy = cx + math.cos(a) * r, cy + math.sin(a) * r
+    flag = (f'<g transform="rotate({math.degrees(a) + 90:.0f} {fx:.0f} {fy:.0f})">'
+            f'<line x1="{fx:.0f}" y1="{fy:.0f}" x2="{fx:.0f}" y2="{fy - 46:.0f}" stroke="{INK}" stroke-width="4" stroke-linecap="round"/>'
+            f'<path d="M{fx + 1:.0f} {fy - 45:.0f} h30 l-6 9 l6 9 h-30 z" fill="#7355dd" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
+            f'<circle cx="{fx + 13:.0f}" cy="{fy - 36:.0f}" r="4" fill="#ff8a1f"/></g>')
+    return f"""<defs><radialGradient id="moonfill" cx=".35" cy=".25" r=".8"><stop offset="0" stop-color="{light}"/><stop offset="1" stop-color="{mid}"/></radialGradient>
+<clipPath id="moonclip"><circle cx="{cx}" cy="{cy}" r="{r}"/></clipPath></defs>
+<g class="spin">{flag}</g>
+<circle cx="{cx}" cy="{cy}" r="{r}" fill="url(#moonfill)"/>
+<g clip-path="url(#moonclip)"><g class="spin">{''.join(craters)}</g></g>
+<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{INK}" stroke-width="5"/>
+<path d="M{cx - r * .82:.0f} {cy - r * .45:.0f} A{r - 10} {r - 10} 0 0 1 {cx - r * .2:.0f} {cy - r + 12:.0f}" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="5" stroke-linecap="round"/>"""
+
+
+def ringed_planet(x, y):
+    return (f'<g class="bobp">'
+            f'<ellipse cx="{x}" cy="{y}" rx="30" ry="9" transform="rotate(-18 {x} {y})" fill="none" stroke="{INK}" stroke-width="7"/>'
+            f'<circle cx="{x}" cy="{y}" r="17" fill="#5b9bf0" stroke="{INK}" stroke-width="4"/>'
+            f'<path d="M{x - 13} {y - 4} q8 -6 20 -3" fill="none" stroke="#9fc5ff" stroke-width="3" stroke-linecap="round"/>'
+            f'<path d="M{x - 27.3} {y + 9.8} A30 9 -18 0 0 {x + 27.3} {y - 9.8}" fill="none" stroke="#ff8a1f" stroke-width="3"/></g>')
 
 
 def hero(theme):
@@ -378,18 +392,18 @@ def hero(theme):
 
     t = HERO_THEMES[theme]
     rng = random.Random(7)
-    duck_css, duck_svg = duck_frames("big", DUCK_X, DUCK_Y, DUCK_SIZE, "fb")
-    fx_css, fx_svg = exhaust(theme, random.Random(11))
+    duck_x = MOON[0] - DUCK_H * duck_meta()["aspect"] / 2
+    duck_y = MOON[1] - MOON[2] - DUCK_H * 0.95 + 4  # planted foot sits ~5% above the frame bottom
+    duck_css, duck_svg = duck_frames("walk", round(duck_x, 1), round(duck_y, 1), DUCK_H, "fb")
     width, height = 1000, 380
     style = [
         f"text{{font-family:{FONT}}}",
         ".tw{animation:tw 3s ease-in-out infinite alternate}",
         "@keyframes tw{from{opacity:1}to{opacity:.2}}",
-        ".drift{animation:drift 5.2s ease-in-out infinite alternate}",
-        "@keyframes drift{from{transform:translateX(-6px)}to{transform:translateX(8px)}}",
-        f".float{{transform-origin:{DUCK_X + DUCK_SIZE * 76 / 128:.0f}px {DUCK_Y + DUCK_SIZE * 64 / 128:.0f}px;"
-        "animation:float 3.4s ease-in-out infinite alternate}",
-        "@keyframes float{from{transform:translateY(7px) rotate(-2.5deg)}to{transform:translateY(-9px) rotate(2deg)}}",
+        f".spin{{transform-origin:{MOON[0]}px {MOON[1]}px;animation:spin 40s linear infinite}}",
+        "@keyframes spin{to{transform:rotate(-360deg)}}",
+        ".bobp{animation:bobp 4s ease-in-out infinite alternate}",
+        "@keyframes bobp{from{transform:translateY(-5px)}to{transform:translateY(5px)}}",
         ".badge{animation:bf 3s ease-in-out infinite alternate}",
         "@keyframes bf{from{transform:translateY(0)}to{transform:translateY(-6px)}}",
         ".glint{animation:glint 5s ease-in-out infinite}",
@@ -417,11 +431,11 @@ def hero(theme):
         y += 12
 
     badges = []
-    size, bx0, by = 88, 712, 266
+    size, bx0, by = 72, 40, 290
     for k, name in enumerate(BADGES):
         with open(os.path.join(ASSETS, "badges", f"{name}.png"), "rb") as f:
             data = base64.b64encode(f.read()).decode()
-        x = bx0 + k * (size + 6)
+        x = bx0 + k * (size + 10)
         s = size
         hexagon = " ".join(f"{x + s * a:.1f},{by + s * b:.1f}" for a, b in
                            ((.5, .03), (.92, .27), (.92, .73), (.5, .97), (.08, .73), (.08, .27)))
@@ -440,12 +454,12 @@ def hero(theme):
 <linearGradient id="shine" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
 <clipPath id="frame"><rect width="{width}" height="{height}" rx="14"/></clipPath>
 </defs>
-<style>{''.join(style)}{duck_css}{fx_css}</style>
+<style>{''.join(style)}{duck_css}</style>
 <g clip-path="url(#frame)">
 <rect width="{width}" height="{height}" fill="{t['tint']}" opacity="{t['tint_opacity']}"/>
 {galaxy(width, height, rng, t)}
 <g shape-rendering="auto">{''.join(text)}</g>
-<g class="drift"><g class="float">{fx_svg}{duck_svg}</g></g>
+<g shape-rendering="auto">{ringed_planet(728, 170)}{moon(theme)}{duck_svg}</g>
 <g shape-rendering="auto">{''.join(badges)}</g>
 </g>
 <rect x=".5" y=".5" width="{width - 1}" height="{height - 1}" rx="14" fill="none" stroke="{t['border']}"/>
