@@ -1,4 +1,4 @@
-<a href="https://www.credly.com/users/keveen-menezes"><img width="30%" align="right" src="assets/duck-certs.gif" alt="Walking duck and AWS certification badges: Solutions Architect Professional, Solutions Architect Associate, Developer Associate"></a>
+<a href="https://www.credly.com/users/keveen-menezes"><img width="30%" align="right" src="assets/duck-certs.gif?v=2" alt="Walking duck and AWS certification badges: Solutions Architect Professional, Solutions Architect Associate, Developer Associate"></a>
 
 <h3>.NET Specialist · Solution Architecture · Distributed Systems · AWS</h3>
 
