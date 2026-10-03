@@ -50,12 +50,3 @@ B.S. in Information Systems — PUC Minas (2023)
 </picture>
 
 <sub>Updated twice a day by a <a href="./.github/workflows/profile-svgs.yml">GitHub Action</a> — no third-party stats service.</sub>
-
----
-
-<p align="center">
-  <b>Full experience and architecture write-ups on LinkedIn</b><br><br>
-  <a href="https://www.linkedin.com/in/keveen-menezes/"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
-  <a href="mailto:keveenprofissional@gmail.com"><img src="https://img.shields.io/badge/Email-EA4335?style=flat-square&logo=gmail&logoColor=white" alt="Email"></a>
-  <a href="https://wa.me/5531984237807"><img src="https://img.shields.io/badge/WhatsApp-25D366?style=flat-square&logo=whatsapp&logoColor=white" alt="WhatsApp"></a>
-</p>
