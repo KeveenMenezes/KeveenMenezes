@@ -983,6 +983,27 @@ def retime(markup, local, offset, period=SCHEDULE):
     return re.sub(r'keyTimes="([\d.;]+)"', keytimes, markup)
 
 
+def duck_timer(x, y):
+    """Tiny countdown to the next duck: 0:59 -> 0:00, restarting as each one walks on stage.
+    Digits are stacked <text>s shown one at a time with CSS (no script runs inside <img>)."""
+    gap = SCHEDULE / len(SLOTS)  # 60 s between ducks
+    css = (".dg{opacity:0;animation-timing-function:steps(1);animation-iteration-count:infinite}"
+           "@keyframes ones{0%{opacity:1}10%,100%{opacity:0}}@keyframes tens{0%{opacity:1}16.667%,100%{opacity:0}}")
+    style = f'font-size="7.5" fill="{A["note"]}" class="mono"'
+    digit = f'font-size="7.5" fill="{A["note"]}"'
+    out = [f'<circle cx="{x}" cy="{y - 2.6}" r="3.2" fill="none" stroke="{A["note"]}"/>'
+           f'<path d="M{x} {y - 4.4}V{y - 2.6}H{x + 1.4}" fill="none" stroke="{A["note"]}"/>',
+           f'<text x="{x + 6}" y="{y}" {style}>next duck in 0:</text>']
+    dx = x + 6 + 15 * 4.5
+    for d in range(6):  # tens: 5..0, ten seconds each
+        out.append(f'<text class="dg mono" style="animation-name:tens;animation-duration:{gap:g}s;animation-delay:{(5 - d) * 10}s" '
+                   f'x="{dx}" y="{y}" {digit}>{d}</text>')
+    for d in range(10):  # ones: 9..0, one second each
+        out.append(f'<text class="dg mono" style="animation-name:ones;animation-duration:10s;animation-delay:{9 - d}s" '
+                   f'x="{dx + 4.5}" y="{y}" {digit}>{d}</text>')
+    return css, "".join(out)
+
+
 def builder_scene():
     """Smart-glasses duck beams in next to checkout, builds notify-λ with a laser pen, wires it
     up, then walks off to the right."""
@@ -1423,6 +1444,8 @@ def hero(user):
     )
     badges_css, badges = badge_cluster(582, 166, size=88)
     css += badges_css
+    timer_css, timer = duck_timer(806, 37)
+    css += timer_css
     bd_css, bd_service, bd_duck = (retime(x, 16.0, SLOTS["bd"]) for x in builder_scene())
     pf_css, pf_duck = (retime(x, 18.0, SLOTS["pf"]) for x in platform_scene())
     sr_css, sr_duck = (retime(x, 20.0, SLOTS["sr"]) for x in sre_scene())
@@ -1458,7 +1481,7 @@ def hero(user):
                f'<title>Event-driven AWS blueprint</title><style>{css}</style><defs>{defs}'
                f'<clipPath id="card"><rect x="{dx}" y="{dy}" width="{dw}" height="{dh}" rx="14"/></clipPath></defs>'
                f'<g clip-path="url(#card)"><rect x="{dx}" y="{dy}" width="{dw}" height="{dh}" fill="{P["bg"]}"/>'
-               f'<rect x="{dx}" y="{dy}" width="{dw}" height="{dh}" fill="url(#grid)"/>{architecture()}{bd_service}'
+               f'<rect x="{dx}" y="{dy}" width="{dw}" height="{dh}" fill="url(#grid)"/>{architecture()}{timer}{bd_service}'
                f'{pf_duck}{bd_duck}{sr_duck}</g>'
                f'<rect x="{dx + .5}" y="{dy + .5}" width="{dw - 1}" height="{dh - 1}" rx="13.5" fill="none" stroke="{P["border"]}"/></svg>')
     light = about
