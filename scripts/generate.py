@@ -3,7 +3,7 @@
 
 - activity-{dark,light}.svg : contributions per month (a pixel duck hops across
                            the bars), contribution mix and busiest weekdays.
-- hero.svg               : pixel-art galaxy header with the astronaut duck and AWS badges.
+- hero-{dark,light}.svg  : see-through pixel-art space header with the astronaut duck and AWS badges.
 - stats-{dark,light}.svg : animated activity card (contributions, commits, PRs,
                            streaks, years on GitHub and top languages).
 
@@ -307,18 +307,28 @@ def wrap(text, limit):
     return lines + [line]
 
 
-def rich(line):
-    """**bold** -> tspans."""
-    out = []
-    for k, chunk in enumerate(line.split("**")):
-        chunk = chunk.replace("&", "&amp;").replace("<", "&lt;")
-        out.append(f'<tspan font-weight="700" fill="#ffffff">{chunk}</tspan>' if k % 2 else chunk)
-    return "".join(out)
+HERO_THEMES = {
+    "dark": {
+        "tint": "#7355dd", "tint_opacity": ".07", "border": "#30363d",
+        "title": "#ffffff", "sub": "#a8a3d6", "body": "#d6d3ee", "bold": "#ffffff",
+        "core": ["#ffffff", "#f1ecff", "#d9ceff"],
+        "arms": ["#c4b5fd", "#9b82f3", "#7355dd", "#5b9bf0", "#3178c6"],
+        "stars": ["#ffffff", "#e9e3ff", "#c4b5fd", "#9fc5ff"],
+    },
+    "light": {
+        "tint": "#7355dd", "tint_opacity": ".05", "border": "#d0d7de",
+        "title": "#1f2328", "sub": "#6a5bb5", "body": "#3d3a55", "bold": "#1f2328",
+        "core": ["#4a2fb0", "#5a3fc0", "#7355dd"],
+        "arms": ["#7355dd", "#8b6cf0", "#5568d6", "#3178c6", "#9b82f3"],
+        "stars": ["#7355dd", "#5568d6", "#3178c6", "#9b82f3"],
+    },
+}
+ACCENTS = ["#ff8a1f", "#39d353"]  # a pinch of orange and green
 
 
-def galaxy(width, height, rng):
-    """Pixel-art space: nebula dust, a spiral galaxy, twinkling stars, a ringed planet."""
-    P = 4
+def galaxy(width, height, rng, t):
+    """Pixel-art space on a see-through background: a few galaxies and stars."""
+    P = 2
     px = {}
 
     def put(x, y, color):
@@ -326,99 +336,116 @@ def galaxy(width, height, rng):
         if 0 <= gx * P < width and 0 <= gy * P < height:
             px[(gx, gy)] = color
 
-    nebula = ["#1d1846", "#251c5c", "#1b2a63", "#2a1f6b"]
-    for cx, cy, r in ((260, 300, 170), (560, 40, 140), (120, 60, 110)):
-        for _ in range(int(r * 2.2)):
-            a, d = rng.uniform(0, 6.283), abs(rng.gauss(0, r / 2.2))
-            put(cx + math.cos(a) * d * 1.6, cy + math.sin(a) * d * 0.7, rng.choice(nebula))
+    def accent_or(color, chance=0.04):
+        return rng.choice(ACCENTS) if rng.random() < chance else color
 
-    gx, gy = 830, 150
-    arms = ["#7355dd", "#8b6cf0", "#5b6ee0", "#3178c6", "#9b82f3", "#c4b5fd"]
-    for arm in range(2):
-        for i in range(520):
-            t = i / 520 * 3.3
-            ang = t * 2.1 + arm * math.pi
-            rad = 8 + t * 46
-            x = gx + math.cos(ang) * rad * 1.35 + rng.gauss(0, 5 + t * 2)
-            y = gy + math.sin(ang) * rad * 0.62 + rng.gauss(0, 3 + t)
-            put(x, y, arms[min(len(arms) - 1, int(t / 3.3 * len(arms) + rng.random()))] if t > 0.4 else "#e9e3ff")
-    for _ in range(160):
-        put(gx + rng.gauss(0, 10), gy + rng.gauss(0, 5), rng.choice(["#ffffff", "#e9e3ff", "#c4b5fd"]))
+    def spiral(cx, cy, scale, tilt, n, turns=3.0):
+        for arm in range(2):
+            for i in range(n):
+                f = i / n
+                ang = f * turns * 2.1 + arm * math.pi
+                rad = scale * (0.12 + f)
+                x = cx + math.cos(ang) * rad * 1.4 + rng.gauss(0, 1.5 + f * scale * 0.06)
+                y = cy + math.sin(ang) * rad * tilt + rng.gauss(0, 1 + f * scale * 0.03)
+                arms = t["arms"]
+                put(x, y, accent_or(arms[min(len(arms) - 1, int(f * len(arms) + rng.random() * .8))], .03))
+        for _ in range(n // 2):
+            put(cx + rng.gauss(0, scale * .09), cy + rng.gauss(0, scale * .05), rng.choice(t["core"]))
+
+    def elliptical(cx, cy, rx, ry, n):
+        for _ in range(n):
+            a, d = rng.uniform(0, 6.283), abs(rng.gauss(0, .45))
+            put(cx + math.cos(a) * d * rx, cy + math.sin(a) * d * ry,
+                rng.choice(t["core"]) if d < .25 else accent_or(rng.choice(t["arms"][:3]), .06))
+
+    spiral(860, 120, 90, .5, 700)
+    elliptical(470, 338, 26, 12, 160)
+    spiral(640, 330, 30, .45, 160, turns=2.4)
+    elliptical(960, 330, 12, 7, 60)
 
     rects = "".join(f'<rect x="{x * P}" y="{y * P}" width="{P}" height="{P}" fill="{c}"/>' for (x, y), c in px.items())
 
     stars = []
-    for k in range(110):
+    for _ in range(70):
         x, y = rng.randrange(0, width, P), rng.randrange(0, height, P)
-        behind_text = x < 690 and 36 < y < 300
-        big = rng.random() < 0.18 and not behind_text
-        color = rng.choice(["#ffffff", "#ffffff", "#c4b5fd", "#9fc5ff", "#ffe8a3"])
-        cls = f' class="tw" style="animation-delay:{rng.uniform(0, 4):.2f}s;animation-duration:{rng.uniform(2, 5):.2f}s"' if rng.random() < 0.6 else ""
-        if big:  # little plus-shaped star
-            stars.append(f'<g{cls} fill="{color}"><rect x="{x}" y="{y - P}" width="{P}" height="{P * 3}"/>'
-                         f'<rect x="{x - P}" y="{y}" width="{P * 3}" height="{P}"/></g>')
+        behind_text = x < 700 and 36 < y < 300
+        color = accent_or(rng.choice(t["stars"]), .1)
+        twinkle = f' class="tw" style="animation-delay:{rng.uniform(0, 4):.2f}s;animation-duration:{rng.uniform(2, 5):.2f}s"'
+        if not behind_text and rng.random() < 0.3:  # sparkle: plus with a bright center
+            s = P
+            stars.append(
+                f'<g{twinkle} fill="{color}"><rect x="{x}" y="{y - 3 * s}" width="{s}" height="{7 * s}" opacity=".55"/>'
+                f'<rect x="{x - 3 * s}" y="{y}" width="{7 * s}" height="{s}" opacity=".55"/>'
+                f'<rect x="{x - s}" y="{y - s}" width="{3 * s}" height="{3 * s}"/></g>'
+            )
+        elif behind_text:
+            stars.append(f'<rect x="{x}" y="{y}" width="{P}" height="{P}" fill="{color}" opacity=".35"/>')
         else:
-            if behind_text:
-                cls, color = "", "#8f86c9"
-            stars.append(f'<rect{cls} x="{x}" y="{y}" width="{P}" height="{P}" fill="{color}" opacity="{'.45' if behind_text else '.85'}"/>')
-
-    # ringed planet
-    planet = []
-    pcx, pcy, pr = 640, 300, 22
-    for y in range(-pr, pr + 1, P):
-        for x in range(-pr, pr + 1, P):
-            if x * x + y * y <= pr * pr:
-                shade = "#3178c6" if x + y < -8 else "#2a5aa8" if x + y < 12 else "#1f437f"
-                planet.append(f'<rect x="{pcx + x}" y="{pcy + y}" width="{P}" height="{P}" fill="{shade}"/>')
-    for x in range(-44, 45, P):
-        y = round(x * 0.18 / P) * P
-        if not (abs(x) < pr and y > -6):
-            planet.append(f'<rect x="{pcx + x}" y="{pcy + y}" width="{P}" height="{P}" fill="#9b82f3"/>')
-    return rects + "".join(stars) + "".join(planet)
+            stars.append(f'<rect{twinkle} x="{x}" y="{y}" width="{P * 2}" height="{P * 2}" fill="{color}"/>')
+    return rects + "".join(stars)
 
 
-def hero():
+ASTRO_FRAMES, ASTRO_MS = 18, 40
+
+
+def astro_frames():
+    """Pixelated astronaut version of the old walking duck (assets/astro, built by
+    scripts/astronaut_frames.py); one <image> per frame, shown in turn via CSS."""
+    import base64
+    out = []
+    for i in range(ASTRO_FRAMES):
+        with open(os.path.join(ASSETS, "astro", f"{i:02d}.png"), "rb") as f:
+            data = base64.b64encode(f.read()).decode()
+        out.append(
+            f'<image class="fr" style="animation-delay:{i * ASTRO_MS}ms" href="data:image/png;base64,{data}" '
+            f'x="790" y="44" width="196" height="196"/>'
+        )
+    return "".join(out)
+
+
+def hero(theme):
     import base64
     import random
 
-    rng = random.Random(42)
+    t = HERO_THEMES[theme]
+    rng = random.Random(7)
     width, height = 1000, 380
     style = [
         f"text{{font-family:{FONT}}}",
         ".tw{animation:tw 3s ease-in-out infinite alternate}",
-        "@keyframes tw{from{opacity:1}to{opacity:.15}}",
-        ".shoot{animation:shoot 7s linear infinite}",
-        "@keyframes shoot{0%,78%{transform:translate(0,0);opacity:0}80%{opacity:1}"
-        "92%{transform:translate(-260px,110px);opacity:0}100%{opacity:0}}",
+        "@keyframes tw{from{opacity:1}to{opacity:.2}}",
         "#astro{animation:float 4s ease-in-out infinite alternate}",
-        "@keyframes float{from{transform:translate(762px,84px) rotate(-3deg)}to{transform:translate(762px,66px) rotate(3deg)}}",
-        ".bob{animation:bob .35s ease-in-out infinite alternate}",
-        "@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-4px)}}",
-        ".foot-a{animation:step .35s steps(1) infinite}",
-        ".foot-b{animation:step .35s steps(1) infinite reverse}",
-        "@keyframes step{0%{transform:translateY(-5px)}50%{transform:translateY(0)}}",
-        ".flame{animation:flame .12s steps(1) infinite alternate}",
-        "@keyframes flame{from{opacity:1}to{opacity:.3}}",
+        "@keyframes float{from{transform:translateY(6px)}to{transform:translateY(-8px)}}",
+        f".fr{{opacity:0;image-rendering:pixelated;animation:fr {ASTRO_MS * ASTRO_FRAMES}ms steps(1) infinite}}",
+        f"@keyframes fr{{0%{{opacity:1}}{100 / ASTRO_FRAMES:.3f}%,100%{{opacity:0}}}}",
         ".badge{animation:bf 3s ease-in-out infinite alternate}",
         "@keyframes bf{from{transform:translateY(0)}to{transform:translateY(-6px)}}",
         ".glint{animation:glint 5s ease-in-out infinite}",
         "@keyframes glint{0%,60%{transform:translateX(-140px)}85%,100%{transform:translateX(140px)}}",
     ]
 
+    def rich(line):
+        out = []
+        for k, chunk in enumerate(line.split("**")):
+            chunk = chunk.replace("&", "&amp;").replace("<", "&lt;")
+            out.append(f'<tspan font-weight="700" fill="{t["bold"]}">{chunk}</tspan>' if k % 2 else chunk)
+        return "".join(out)
+
     text = [
-        f'<text x="40" y="66" font-size="25" font-weight="700" fill="#ffffff">{TITLE}</text>',
-        f'<text x="40" y="94" font-size="14" fill="#b9b3e6">{SUBTITLE}</text>',
-        '<rect x="40" y="112" width="56" height="4" fill="#7355dd"/><rect x="96" y="112" width="28" height="4" fill="#3178c6"/>',
+        f'<text x="40" y="66" font-size="24" font-weight="700" fill="{t["title"]}">{TITLE}</text>',
+        f'<text x="40" y="94" font-size="14" fill="{t["sub"]}">{SUBTITLE}</text>',
+        '<rect x="40" y="112" width="56" height="4" fill="#7355dd"/><rect x="96" y="112" width="20" height="4" fill="#3178c6"/>'
+        '<rect x="116" y="112" width="6" height="4" fill="#ff8a1f"/><rect x="122" y="112" width="6" height="4" fill="#39d353"/>',
     ]
     y = 152
     for para in ABOUT:
         for line in wrap(para, 76):
-            text.append(f'<text x="40" y="{y}" font-size="15.5" fill="#dcd8f5">{rich(line)}</text>')
+            text.append(f'<text x="40" y="{y}" font-size="15.5" fill="{t["body"]}">{rich(line)}</text>')
             y += 25
         y += 12
 
     badges = []
-    size, bx0, by = 92, 700, 262
+    size, bx0, by = 88, 712, 266
     for k, name in enumerate(BADGES):
         with open(os.path.join(ASSETS, "badges", f"{name}.png"), "rb") as f:
             data = base64.b64encode(f.read()).decode()
@@ -438,19 +465,18 @@ def hero():
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" shape-rendering="crispEdges">
 <title>{TITLE} · {alt_title}</title>
 <defs>
-<linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0b0a1f"/><stop offset="1" stop-color="#16123a"/></linearGradient>
 <linearGradient id="shine" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
 <clipPath id="frame"><rect width="{width}" height="{height}" rx="14"/></clipPath>
 </defs>
 <style>{''.join(style)}</style>
 <g clip-path="url(#frame)">
-<rect width="{width}" height="{height}" fill="url(#sky)"/>
-{galaxy(width, height, rng)}
-<g class="shoot"><rect x="900" y="24" width="4" height="4" fill="#fff"/><rect x="904" y="20" width="4" height="4" fill="#c4b5fd"/><rect x="908" y="16" width="4" height="4" fill="#7355dd" opacity=".7"/><rect x="912" y="12" width="4" height="4" fill="#3178c6" opacity=".4"/></g>
+<rect width="{width}" height="{height}" fill="{t['tint']}" opacity="{t['tint_opacity']}"/>
+{galaxy(width, height, rng, t)}
 <g shape-rendering="auto">{''.join(text)}</g>
-<g id="astro" style="transform-box:fill-box;transform-origin:center">{duck_svg(7)}</g>
+<g id="astro">{astro_frames()}</g>
 <g shape-rendering="auto">{''.join(badges)}</g>
 </g>
+<rect x=".5" y=".5" width="{width - 1}" height="{height - 1}" rx="14" fill="none" stroke="{t['border']}"/>
 </svg>"""
 
 
@@ -542,11 +568,9 @@ def main():
     user = fetch()
     os.makedirs(OUT, exist_ok=True)
     for theme in THEMES:
-        for name, fn in (("activity", activity_card), ("stats", stats_card)):
+        for name, fn in (("activity", activity_card), ("stats", stats_card), ("hero", lambda _, th: hero(th))):
             with open(os.path.join(OUT, f"{name}-{theme}.svg"), "w") as f:
                 f.write(fn(user, theme))
-    with open(os.path.join(OUT, "hero.svg"), "w") as f:
-        f.write(hero())
     print(f"wrote SVGs to {OUT}/")
 
 

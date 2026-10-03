@@ -1,4 +1,9 @@
-<a href="https://www.credly.com/users/keveen-menezes"><img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/hero.svg" alt=".NET Specialist · Solution Architecture · Distributed Systems · AWS. 5+ years building software · Belo Horizonte, Brazil. Backend engineer and software architect specialized in .NET (C#, ASP.NET Core, .NET Aspire), designing event-driven, distributed systems on AWS. I pick patterns for the problem, not the hype, weighing scalability, cost, maintainability and what the business actually needs, and I document the trade-offs so the next person inherits the reasoning. AWS Certified Solutions Architect Professional, Solutions Architect Associate and Developer Associate."></a>
+<a href="https://www.credly.com/users/keveen-menezes">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/hero-dark.svg">
+    <img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/hero-light.svg" alt=".NET Specialist · Solution Architecture · Distributed Systems · AWS. 5+ years building software · Belo Horizonte, Brazil. Backend engineer and software architect specialized in .NET (C#, ASP.NET Core, .NET Aspire), designing event-driven, distributed systems on AWS. I pick patterns for the problem, not the hype, weighing scalability, cost, maintainability and what the business actually needs, and I document the trade-offs so the next person inherits the reasoning. AWS Certified Solutions Architect Professional, Solutions Architect Associate and Developer Associate.">
+  </picture>
+</a>
 
 **Stack** &nbsp;`C#` `.NET` `ASP.NET Core` `.NET Aspire` `EF Core` `Apache Kafka` `AWS` `Lambda` `DynamoDB` `Step Functions` `Terraform` `CDK` `Docker` `Kubernetes` `SQL Server` `PostgreSQL` `React` `Next.js` `Angular`
 
