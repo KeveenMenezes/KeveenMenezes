@@ -14,8 +14,8 @@ B.S. in Information Systems — PUC Minas (2023)
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/activity-dark.svg?v=1">
-  <img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/activity-light.svg?v=1" alt="Contributions per month, contribution mix and busiest weekdays">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/activity-dark.svg?v=2">
+  <img width="100%" src="https://raw.githubusercontent.com/KeveenMenezes/KeveenMenezes/output/activity-light.svg?v=2" alt="Contributions per month, contribution mix and busiest weekdays">
 </picture>
 
 <sub>Updated twice a day by a <a href="./.github/workflows/profile-svgs.yml">GitHub Action</a> — no third-party stats service.</sub>
