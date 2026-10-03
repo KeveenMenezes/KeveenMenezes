@@ -1,4 +1,4 @@
-<a href="https://www.credly.com/users/keveen-menezes"><img width="30%" align="right" src="assets/duck-badges.gif" alt="Walking duck and AWS certification badges: Solutions Architect Professional, Solutions Architect Associate, Developer Associate"></a>
+<a href="https://www.credly.com/users/keveen-menezes"><img width="30%" align="right" src="assets/duck-aws.gif" alt="Walking duck and AWS certification badges: Solutions Architect Professional, Solutions Architect Associate, Developer Associate"></a>
 
 <h3>.NET Specialist · Solution Architecture · Distributed Systems · AWS</h3>
 
@@ -8,11 +8,9 @@
 
 <p>
   <img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET">
-  <img src="https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white" alt="C#">
-  <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white" alt="AWS">
+  <img src="https://img.shields.io/badge/C%23-7355DD?style=flat-square&logo=csharp&logoColor=white" alt="C#">
+  <img src="https://img.shields.io/badge/AWS-3178C6?style=flat-square&logo=amazonwebservices&logoColor=white" alt="AWS">
   <img src="https://img.shields.io/badge/Apache%20Kafka-231F20?style=flat-square&logo=apachekafka&logoColor=white" alt="Kafka">
-  <img src="https://img.shields.io/badge/3x%20AWS%20Certified-FF9900?style=flat-square&logo=amazonwebservices&logoColor=white" alt="3x AWS Certified">
-  <a href="https://github.com/KeveenMenezes?tab=followers"><img src="https://img.shields.io/github/followers/KeveenMenezes?style=flat-square&logo=github&label=Followers&color=24292f" alt="Followers"></a>
 </p>
 
 Backend engineer and software architect specialized in **.NET** (C#, ASP.NET Core, .NET Aspire), designing event-driven, distributed systems on **AWS**.
